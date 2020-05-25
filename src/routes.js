@@ -11,6 +11,7 @@ const AppStack = createStackNavigator ();
 import ListaTipoExame from './pages/Exames/ListaTipoExames';
 import ListaExame from './pages/Exames/ListaExames';
 import DetalhesExame from './pages/Exames/DetalhesExame';
+import FormularioTipoExame from './pages/Exames/Formulario/FormularioTipoExame';
 //import Login from './pages/Login';
 
 function HomeScreen({ navigation }) {
@@ -27,6 +28,7 @@ function ScreenExames({ navigation }) {
             <AppStack.Screen name='ListTipoExame' component={ListaTipoExame} />
             <AppStack.Screen name='ListExame' component={ListaExame} />
             <AppStack.Screen name='DetalhesExame' component={DetalhesExame} />
+            <AppStack.Screen name='FormularioTipoExame' component={FormularioTipoExame} />
         </AppStack.Navigator>
     );
 }
@@ -51,7 +53,7 @@ const Drawer = createDrawerNavigator();
 export default function Routes(){
     return (
         <NavigationContainer>
-            <Drawer.Navigator initialRouteName="Home" >
+            <Drawer.Navigator initialRouteName="Exames" >
                 <Drawer.Screen name="Home" component={HomeScreen} />
                 <Drawer.Screen name="Exames" component={ScreenExames} />
                 <Drawer.Screen name="Notifications" component={NotificationsScreen} />
