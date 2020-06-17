@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://192.168.0.106:3000/'// trocar sempre que logar em outra rede
+    baseURL: 'http://192.168.0.108:3000/'// trocar sempre que logar em outra rede
 });
 
 export default api;
