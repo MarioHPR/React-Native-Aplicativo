@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Row, Rows } from 'react-native-table-component';
 
-import { Feather } from '@expo/vector-icons';
+import { Feather, Foundation } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { View, FlatList, Text, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
@@ -41,8 +41,10 @@ export default function FormularioTipoExame(params) {
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
-        let data = Moment(currentDate).format('DD/MM/YYYY');
-        setDate( data );
+        if (currentDate != date){
+            let data = Moment(currentDate).format('DD/MM/YYYY');
+            setDate( data );
+        }
     };
 
     const showMode = currentMode => {
@@ -61,7 +63,8 @@ export default function FormularioTipoExame(params) {
     return (
 
         <View style={styles.container}>
-
+            <View style={styles.tarja}>
+            </View>
             <View style={styles.header}>
                 <TouchableOpacity onPress={navigateBack}>
                     <Feather name="arrow-left" size={28} color="#E82041" />
@@ -69,40 +72,41 @@ export default function FormularioTipoExame(params) {
                 <Text>Exame: q</Text>
                 <Text style={styles.propriedade}> Data: q</Text>
             </View>
+            <View style={styles.conteinerSecundario}>
 
-            <View style={styles.regForm}>
-                <Text style={styles.titulo}> Registrar novo {tipoExame.nomeExame}</Text>
-            </View>
-
-            <View>
-                <View>
-                    <TouchableOpacity onPress={showDatepicker} > 
-                        <Text>Data do Exame</Text>
-                    </TouchableOpacity>
+                <View style={styles.regForm}>
+                    <Text style={styles.titulo}> Registrar novo {tipoExame.nomeExame}</Text>
                 </View>
 
                 <View>
-                    <Text>
-                        {date}
-                    </Text>
+                    <View style={styles.conteinerBt}>
+                        <Text style={styles.label}>Data do exame:</Text>
+                        <TouchableOpacity style={styles.btData} onPress={showDatepicker} > 
+                            <Text style={styles.data}>
+                                {date}
+                            </Text>
+                            <Foundation style={styles.calendario}  name="calendar"/>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    {show && (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={dateAux}
+                            mode={mode}
+                            display="spinner"
+                            onChange={onChange}
+                        />
+                    )}
+                    
                 </View>
-                {show && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={dateAux}
-                        mode={mode}
-                        display="default"
-                        onChange={onChange}
-                    />
-                )}
-                
+
+
+                <TextInput style={styles.textInput}
+                    placeholder='Exame'
+                    underlineColorAndroid={'transparent'} />
             </View>
-
-
-            <TextInput style={styles.textInput}
-                placeholder='Exame'
-                underlineColorAndroid={'transparent'} />
-
         </View>
     );
 }
