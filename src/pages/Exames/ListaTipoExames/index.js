@@ -22,7 +22,6 @@ export default function ListaTipoExame(params) {
 
     async function loadTipoExame(){
         const response = await api.get('tipoExame',{params:{idUsuario:1}});
-        
         setTipoExame(response.data);
     }
 

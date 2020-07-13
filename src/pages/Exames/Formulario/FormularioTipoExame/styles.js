@@ -10,7 +10,7 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: '#010418'
     },
 
     conteinerSecundario: {
@@ -19,13 +19,15 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: '#010418'
+        /*'#010418'*/
     },
 
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#010418'
+        backgroundColor: '#010418',
+        paddingTop: 5
     },
 
     regForm: {
@@ -103,5 +105,48 @@ export default StyleSheet.create({
         marginBottom: 1,
         paddingTop: 2,
         color: "white"
+    },
+    conteinerInstituicao:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    btInstituicao:{
+        marginTop: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+        height: 40,
+        width: 295
+    },
+
+    btAdd: {
+        marginTop: 8,
+        borderWidth:1,
+        borderColor: "#2EFE64",
+        borderRadius:10,
+        padding: 4,
+        paddingLeft: 8,
+        color:"#2EFE64",
+    },
+
+    inputIOS: {
+        fontSize: 18,
+        textAlign: 'center',
+        paddingVertical: 10,
+        fontWeight: 'bold',
+        paddingHorizontal: 10,
+        color: 'white',
+        //paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        top: -7,
+        fontSize: 18,
+        textAlign: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        color: 'white',
+        paddingRight: 30, // to ensure the text is never behind the icon
     }
 });
