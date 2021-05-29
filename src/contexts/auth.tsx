@@ -26,7 +26,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, []);
 
     async function signIn(parametros:ParametrosLogin) {   
-        console.log(parametros)  
         const response = await api.post('/login', parametros);
         await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
         setUser(response.headers.authorization)

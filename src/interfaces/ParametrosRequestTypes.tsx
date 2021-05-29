@@ -9,3 +9,19 @@ export interface AuthContextData {
     novoUsuario: boolean;
     navegarCadastroUsuario(): void;
 }
+
+export interface InputProps {
+    label: string;
+    valor: string;
+    setValor: Function;
+    mensagemErro: string;
+    style: any;
+}
+
+export interface ButtonProps {
+    nomeBotao: string;
+    acao: any;
+    style: any;
+    icon: any;
+    type: any;
+}

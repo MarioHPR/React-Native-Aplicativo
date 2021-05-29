@@ -1,49 +1,38 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useAuth } from '../../contexts/auth';
-import { Icon, Text, Button } from 'react-native-elements';
-
-import { TextInput } from 'react-native-paper';
 import styles from './styles';
 import { translate } from '../../locales';
+import {
+    verificaEmailInvalido,
+    verificaSenhaInvalida } from '../../utils/Validador';
+import InputTextPadrao from '../../componentes/InputTextPadrao/InputTextPadrao';
+import InputPassWord from '../../componentes/InputPassWord/InputPassWord';
+import ButtonComIconPadrao from '../../componentes/ButtonComIconPadrao/ButtonComIconPadrao';
+import { Headline } from 'react-native-paper';
 
 const SignIn: React.FC = () => {
 
     const { navegarCadastroUsuario, signIn } = useAuth();
     const [ email, setEmail ] = useState<string>("");
     const [ senha, setSenha ] = useState<string>(""); 
-    const [ trocarIcone, setTrocarIcone ] = useState<boolean>(true);
     const [ mensagemEmail, setMensagemEmail ] = useState<string>("");
     const [ mensagemSenha, setMensagemSenha ] = useState<string>("");
 
-    function verificaEmailInvalido(valor:string){
-        if(email === ""){
-            setMensagemEmail( translate("alertPadrao") );
-            return true;
-        }  
-        else if(!valor.includes('@gmail')){
-            setMensagemEmail(translate("email.error.alertaEmail"));
-            return true;
-        }
-        setMensagemEmail("");
-        return false;
+    const verificaCampoEmail = (): boolean => {
+        setMensagemEmail(verificaEmailInvalido(email));
+        return verificaEmailInvalido(email) === "";
     }
 
-    function verificaSenhaInvalido(valor:string){
-        if(valor === ""){
-            setMensagemSenha( translate("alertPadrao") );
-            return true;
-        }  
-        else if(valor.length < 6){
-            setMensagemSenha( translate("senha.error.alertMinimoCaracter") );
-            return true;
-        }
-        setMensagemSenha("");
-        return false;
+    const verificaCampoSenha = (): boolean => {
+        setMensagemSenha(verificaSenhaInvalida(senha));
+        return verificaEmailInvalido(email) === "";
     }
 
-    function handleSignIn() {
-        if(!verificaEmailInvalido(email) && !verificaSenhaInvalido(senha)){
+    const handleSignIn = () => {
+        const flgEmail = verificaCampoEmail();
+        const flgSenha = verificaCampoSenha();
+        if(flgEmail && flgSenha){
             let parametros = {
                 email: email.toLowerCase(),
                 senha: senha,
@@ -54,60 +43,35 @@ const SignIn: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Text h3 style={styles.h3}>{translate("tituloApp")}</Text>
+            <Headline  style={styles.h3}>{translate("tituloApp")}</Headline >
         
-            <TextInput
-                style={styles.marginTop} 
-                mode="outlined"
-                label={mensagemEmail === "" ? translate("email.title") : mensagemEmail}
-                right={<TextInput.Affix text="/50" />}
-                onChangeText={value => setEmail(value)}
-                error={mensagemEmail !== "" ? true : false}
-            />
+            <InputTextPadrao 
+                label={translate("email.title")}
+                valor={email}
+                setValor={setEmail}
+                mensagemErro={mensagemEmail}
+                style={styles.marginTop} />
 
-            <TextInput
-                style={styles.marginTop} 
-                mode="outlined"
-                label={mensagemSenha === "" ? translate("senha.title") : mensagemSenha}
-                secureTextEntry={trocarIcone}
-                right={
-                    <TextInput.Icon name={ trocarIcone ? "eye-off" : "eye" }
-                        onPress={ () => setTrocarIcone(!trocarIcone)}
-                    />
-                }
-                onChangeText={value => setSenha(value)}
-                error={mensagemSenha !== "" ? true : false}
-            />
+            <InputPassWord 
+                label={translate("senha.title")}
+                valor={senha}
+                setValor={setSenha}
+                mensagemErro={mensagemSenha}
+                style={styles.marginTop} />
 
-            <Button
-                containerStyle={styles.marginTop}        
-                icon={
-                    <Icon
-                        type="font-awesome"
-                        name="arrow-right"
-                        size={15}
-                        color="white"
-                    />
-                }iconRight
-                title={translate("botaoEntrar")}
-                onPress={handleSignIn}
-            />
+            <ButtonComIconPadrao 
+                nomeBotao={translate("botaoEntrar")}
+                acao={handleSignIn}
+                style={styles.marginTop}
+                icon="arrow-right"
+                type="solid" />
             
-            <Button
-                containerStyle={styles.marginTop}
-                icon={
-                    <Icon
-                    type="font-awesome"
-                        name="arrow-right"
-                        size={15}
-                        color="blue"
-                    />
-                }
-                iconRight
-                title={translate("botaoCadastrar")}
-                type="outline"
-                onPress={navegarCadastroUsuario}
-            />
+            <ButtonComIconPadrao 
+                nomeBotao={translate("botaoCadastrar")}
+                acao={navegarCadastroUsuario}
+                style={styles.marginTop}
+                icon="arrow-right"
+                type="outline" />
         </View>
     )
 };

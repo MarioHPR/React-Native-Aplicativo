@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     marginTop: {
-        marginTop: 15,
+        marginTop: 5,
     },
 });
 export default styles;
