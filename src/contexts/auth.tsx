@@ -1,27 +1,16 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
-import * as auth from '../services/auth';
 
-interface userLogin {
-    email : string;
-    senha : string;
-}
-interface AuthContextData {
-    signed: boolean;
-    user: string;
-    loading: boolean;  
-    signIn(userLogin): Promise<void>;
-    signOut(): void;
-}
+import { AuthContextData } from '../interfaces/ParametrosRequestTypes';
+import { ParametrosLogin } from '../models/Usuario';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
-
-
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [ user, setUser ] = useState<string>("");
     const [ loading, setLoading ] = useState(false);
+    const [ novoUsuario, setNovoUsuario ] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -36,7 +25,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStoragedData();
     }, []);
 
-    async function signIn(parametros) {   
+    async function signIn(parametros:ParametrosLogin) {   
         console.log(parametros)  
         const response = await api.post('/login', parametros);
         await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
@@ -49,8 +38,13 @@ export const AuthProvider: React.FC = ({ children }) => {
         });        
     }
 
+    async function navegarCadastroUsuario() {
+        let aux = !novoUsuario;
+        setNovoUsuario(aux);       
+    }
+
     return (
-        <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut}}>
+        <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario}}>
             {children}
         </AuthContext.Provider>
     );

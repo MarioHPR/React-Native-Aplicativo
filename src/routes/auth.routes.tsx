@@ -1,14 +1,19 @@
 import React from 'react';
 import SignIn from '../pages/SignIn';
+import CadastroUsuario from '../pages/Cadastro';
 
  import { createStackNavigator } from '@react-navigation/stack';
 
  const AuthStack = createStackNavigator();
 
- const AuthRoutes: React.FC = () => (
+ export const AuthRoutes: React.FC = () => (
      <AuthStack.Navigator>
          <AuthStack.Screen name="SignIn" component={SignIn} />
      </AuthStack.Navigator>
  );
 
- export default AuthRoutes;
+ export const CadastroUsuarioRoutes: React.FC = () => (
+    <AuthStack.Navigator>
+        <AuthStack.Screen name="Cadastro" component={CadastroUsuario} />
+    </AuthStack.Navigator>
+);
