@@ -15,6 +15,7 @@ export default({label, valor, setValor, mensagemErro, style}: InputProps) => {
                 style={style} 
                 mode="outlined"
                 label={label}
+                defaultValue={valor || ''}
                 onChangeText={value => setValor(value)}
                 error={mensagemErro !== "" ? true : false}
             />

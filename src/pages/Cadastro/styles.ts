@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
         height: 10,
     },
     marginTop: {
-        marginTop: 5,
+    },
+    h3: {
+        textAlign: 'center',
+        justifyContent: 'center'
     },
 });
 

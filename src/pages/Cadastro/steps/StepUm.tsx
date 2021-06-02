@@ -1,30 +1,43 @@
 import React, { useMemo, useState } from 'react';
+import { Button } from 'react-native';
+import { Headline } from 'react-native-paper';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
 
-export default function StepUm() {
+interface Props {
+    setProgresso: Function;
+    setEtapa: Function;
+    nome: string;
+    setNome: Function;
+    cpf: string;
+    setCpf: Function;
+    dataNascimento: string;
+    setDataNascimento: Function;
+    email: string;
+    setEmail: Function;
+    senha: string;
+    setSenha: Function;
+}
 
-    const [ nome, setNome ] =useState<string>('');
-    const [ cpf, setCpf ] =useState<string>('');
-    const [ dataNascimento, setDataNascimento ] =useState<string>('');
-    const [ email, setEmail ] =useState<string>('');
-    const [ senha, setSenha ] = useState<string>('');
+export default function StepUm({setProgresso, setEtapa, nome, cpf, dataNascimento, email, senha,
+setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
 
-    useMemo<void>(() => {
-        let aux = 0;
-        aux += nome !== "" ? 0.07 : 0;
-        aux += cpf !== "" ? 0.07 : 0;
-        aux += dataNascimento !== "" ? 0.07 : 0;
-        aux += email !== "" ? 0.07 : 0;
-        aux += senha !== "" ? 0.07 : 0;
-        console.log(aux)]
-    },[nome, cpf, dataNascimento, email, senha]);
+    const porcentagem = useMemo(() => {
+        return cpf !== "" && nome !== "" && email !== "" && 
+        senha !== "" &&  dataNascimento !== "";
+    }, [cpf, nome, email, senha, dataNascimento]);
+
+    const t = () => {
+        porcentagem && setProgresso(0.35);
+        porcentagem && setEtapa(2);
+    };
 
     return(
         <>
+            <Headline style={styles.h3}>{translate("cadastroUsuario.step1.title")}</Headline >
             <InputTextPadrao 
-                label={translate("email.title")}
+                label={translate("cadastroUsuario.step1.nome")}
                 valor={nome}
                 setValor={setNome}
                 mensagemErro={("")}
@@ -32,7 +45,7 @@ export default function StepUm() {
             />
 
             <InputTextPadrao 
-                label={translate("email.title")}
+                label={translate("cadastroUsuario.step1.cpf")}
                 valor={cpf}
                 setValor={setCpf}
                 mensagemErro={("")}
@@ -40,7 +53,7 @@ export default function StepUm() {
             />
 
             <InputTextPadrao 
-                label={translate("email.title")}
+                label={translate("cadastroUsuario.step1.dataNascimento")}
                 valor={dataNascimento}
                 setValor={setDataNascimento}
                 mensagemErro={("")}
@@ -48,7 +61,7 @@ export default function StepUm() {
             />
 
             <InputTextPadrao 
-                label={translate("email.title")}
+                label={translate("cadastroUsuario.step1.email")}
                 valor={email}
                 setValor={setEmail}
                 mensagemErro={("")}
@@ -56,12 +69,14 @@ export default function StepUm() {
             />
 
             <InputTextPadrao 
-                label={translate("email.title")}
+                label={translate("cadastroUsuario.step1.senha")}
                 valor={senha}
                 setValor={setSenha}
                 mensagemErro={("")}
                 style={styles.marginTop}
             />
+
+            <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />
         </>
 
     );

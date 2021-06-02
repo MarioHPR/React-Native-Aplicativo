@@ -5,27 +5,31 @@ import { translate } from '../../locales';
 import styles from './styles';
 import { Appbar, ProgressBar, Colors } from 'react-native-paper';
 import InputTextPadrao from '../../componentes/InputTextPadrao/InputTextPadrao';
+import StepUm from './steps/StepUm';
+import StepDois from './steps/StepDois';
+import StepTres from './steps/StepTres';
 
 const CadastroUsuario: React.FC = () => {
 
-    const { user, navegarCadastroUsuario } = useAuth();
+    const { navegarCadastroUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
-    const [ nome, setNome ] =useState<string>('');
-    const [ cpf, setCpf ] =useState<string>('');
+    const [ etapa, setEtapa ] = useState<number>(1);
+
+    const [ nome, setNome ] = useState<string>('');
+    const [ cpf, setCpf ] = useState<string>('');
     const [ dataNascimento, setDataNascimento ] =useState<string>('');
-    const [ email, setEmail ] =useState<string>('');
+    const [ email, setEmail ] = useState<string>('');
     const [ senha, setSenha ] = useState<string>('');
 
-    const t = () => {
-        let aux = 0;
-        aux += nome !== "" ? 0.07 : 0;
-        aux += cpf !== "" ? 0.07 : 0;
-        aux += dataNascimento !== "" ? 0.07 : 0;
-        aux += email !== "" ? 0.07 : 0;
-        aux += senha !== "" ? 0.07 : 0;
-        setProgresso(aux)
-    };
+    const [ cidade, setCidade ] = useState<string>('');
+    const [ cep, setCep ] = useState<string>('');
+    const [ bairro, setBairro ] = useState<string>('');
+    const [ rua, setRua ] = useState<string>('');
+    const [ numero, setNumero ] = useState<string>('');
 
+    const [ contatoUm, setContatoUm ] = useState<string>('');
+    const [ contatoDois, setContatoDois ] = useState<string>('');
+    
     function handleSignOut() {
         navegarCadastroUsuario();
     }
@@ -40,47 +44,37 @@ const CadastroUsuario: React.FC = () => {
             <ProgressBar progress={progresso} color={Colors.green900}style={styles.barraProgresso} />
             
             <View style={styles.container}>
-                <InputTextPadrao 
-                    label={translate("cadastroUsuario.step1.nome")}
-                    valor={nome}
-                    setValor={setNome}
-                    mensagemErro=""
-                    style={styles.marginTop}
-                />
+                {
+                    etapa === 1  &&
+                        <StepUm 
+                            setProgresso={setProgresso} setEtapa={setEtapa}
+                            nome={nome} setNome={setNome}
+                            cpf={cpf} setCpf={setCpf}
+                            dataNascimento={dataNascimento} setDataNascimento={setDataNascimento}
+                            email={email} setEmail={setEmail}
+                            senha={senha} setSenha={setSenha}
+                        />
+                }
+                {
+                    etapa === 2 &&
+                        <StepDois
+                            setProgresso={setProgresso} setEtapa={setEtapa}
+                            cidade={cidade} setCidade={setCidade}
+                            cep={cep} setCep={setCep}
+                            bairro={bairro} setBairro={setBairro}
+                            rua={rua} setRua={setRua}
+                            numero={numero} setNumero={setNumero}
+                            />
+                }
+                {
+                    etapa === 3 &&
+                        <StepTres 
+                            setProgresso={setProgresso} setEtapa={setEtapa}
+                            contatoUm={contatoUm} setContatoUm={setContatoUm}
+                            contatoDois={contatoDois} setContatoDois={setContatoDois}
+                        />
+                }
 
-                <InputTextPadrao 
-                    label={translate("cadastroUsuario.step1.cpf")}
-                    valor={cpf}
-                    setValor={setCpf}
-                    mensagemErro=""
-                    style={styles.marginTop}
-                />
-
-                <InputTextPadrao 
-                    label={translate("cadastroUsuario.step1.dataNascimento")}
-                    valor={dataNascimento}
-                    setValor={setDataNascimento}
-                    mensagemErro=""
-                    style={styles.marginTop}
-                />
-
-                <InputTextPadrao 
-                    label={translate("cadastroUsuario.step1.email")}
-                    valor={email}
-                    setValor={setEmail}
-                    mensagemErro=""
-                    style={styles.marginTop}
-                />
-
-                <InputTextPadrao 
-                    label={translate("cadastroUsuario.step1.senha")}
-                    valor={senha}
-                    setValor={setSenha}
-                    mensagemErro=""
-                    style={styles.marginTop}
-                />
-
-                <Button title="Logout" onPress={t} />
             </View>
         </>
         // <View style={styles.container}>

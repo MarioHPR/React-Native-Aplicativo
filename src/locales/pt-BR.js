@@ -18,8 +18,10 @@ export default PtBr = {
     botaoVoltar: "Voltar",
     botaoProximaEtapa: "Próxima etapa",
     botaoEtapaAnterior: "Etapa anterior",
+    botaoEnviar: "Enviar cadastro",
     cadastroUsuario: {
         step1: {
+            title: "Dados pessoais",
             nome: "Nome completo",
             cpf: "Cpf",
             dataNascimento: "Data nascimento",
@@ -27,6 +29,7 @@ export default PtBr = {
             senha: "Senha"
         },
         step2: {
+            title: "Localidade",
             pais: "Pais",
             paisDefault: "Brasil",
             cidade: "Cidade",
@@ -36,6 +39,7 @@ export default PtBr = {
             numero: "N°"
         },
         step3: {
+            title: "Contatos",
             contato1: "Contato principal",
             contato2: "Contato secundario"
         }

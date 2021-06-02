@@ -18,8 +18,10 @@ export default EnUs = {
     botaoVoltar: "Go back",
     botaoProximaEtapa: "Next step",
     botaoEtapaAnterior: "Previous step",
+    botaoEnviar: "Send registration",
     cadastroUsuario: {
         step1: {
+            title: "Personal data",
             nome: "Full name",
             cpf: "Cpf",
             dataNascimento: "Birth date",
@@ -27,6 +29,7 @@ export default EnUs = {
             senha: "Password"
         },
         step2: {
+            title: "Locality",
             pais: "Country",
             paisDefault: "Brasil",
             cidade: "City",
@@ -36,6 +39,7 @@ export default EnUs = {
             numero: "N°"
         },
         step3: {
+            title: "Contacts",
             contato1: "Primary contact",
             contato2: "Secondary contact"
         }
