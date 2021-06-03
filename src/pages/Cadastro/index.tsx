@@ -14,7 +14,7 @@ const CadastroUsuario: React.FC = () => {
     const { navegarCadastroUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
-
+    const [ tela, setTela ] = useState<string>("");
     const [ nome, setNome ] = useState<string>('');
     const [ cpf, setCpf ] = useState<string>('');
     const [ dataNascimento, setDataNascimento ] =useState<string>('');
@@ -40,6 +40,7 @@ const CadastroUsuario: React.FC = () => {
                 <Appbar.BackAction 
                     color='white'
                     onPress={handleSignOut} />
+                <Appbar.Content title="Cadastro" subtitle={tela} color='white' />
             </Appbar.Header>
             <ProgressBar progress={progresso} color={Colors.green900}style={styles.barraProgresso} />
             
@@ -53,6 +54,7 @@ const CadastroUsuario: React.FC = () => {
                             dataNascimento={dataNascimento} setDataNascimento={setDataNascimento}
                             email={email} setEmail={setEmail}
                             senha={senha} setSenha={setSenha}
+                            setTela={setTela}
                         />
                 }
                 {
@@ -64,6 +66,7 @@ const CadastroUsuario: React.FC = () => {
                             bairro={bairro} setBairro={setBairro}
                             rua={rua} setRua={setRua}
                             numero={numero} setNumero={setNumero}
+                            setTela={setTela}
                             />
                 }
                 {
@@ -72,6 +75,7 @@ const CadastroUsuario: React.FC = () => {
                             setProgresso={setProgresso} setEtapa={setEtapa}
                             contatoUm={contatoUm} setContatoUm={setContatoUm}
                             contatoDois={contatoDois} setContatoDois={setContatoDois}
+                            setTela={setTela}
                         />
                 }
 

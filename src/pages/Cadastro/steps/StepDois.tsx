@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Button } from 'react-native';
-import { Headline } from 'react-native-paper';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
@@ -18,21 +17,30 @@ interface Props {
     setRua: Function;
     numero: string;
     setNumero: Function;
+    setTela: Function;
 }
 
 export default function StepDois({
     setEtapa, setProgresso,
     cidade, cep, bairro, rua, numero,
-    setCidade, setCep, setBairro, setRua, setNumero
+    setCidade, setCep, setBairro, setRua, setNumero, setTela
 }: Props) {
 
+    useEffect(() => {
+        setTela(translate("cadastroUsuario.step2.title"));
+    }, [setTela]);
+
     const porcentagem = useMemo(() => {
-        return cidade !== "" && cep !== "" &&
-        bairro !== "" && rua !== "" && numero !== "";
+        if(cidade !== "" && cep !== "" &&
+            bairro !== "" && rua !== "" && numero !== ""){
+                setProgresso(0.70);
+                return true;
+        }
+        setProgresso(0.35);
+        return false;
     }, [cidade, cep, bairro, rua, numero]);
 
     const t = () => {
-        porcentagem && setProgresso(0.70);
         setEtapa(3);
     };
 
@@ -41,9 +49,7 @@ export default function StepDois({
     };
 
     return(
-        <>
-            <Headline style={styles.h3}>{translate("cadastroUsuario.step2.title")}</Headline >
-
+        <ScrollView>
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step2.cidade")}
                 valor={cidade}
@@ -57,7 +63,7 @@ export default function StepDois({
                 valor={cep}
                 setValor={setCep}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -65,7 +71,7 @@ export default function StepDois({
                 valor={bairro}
                 setValor={setBairro}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -73,7 +79,7 @@ export default function StepDois({
                 valor={rua}
                 setValor={setRua}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -81,16 +87,12 @@ export default function StepDois({
                 valor={numero}
                 setValor={setNumero}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
-
-
-
-            
 
             <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />
             <Button title={translate("botaoEtapaAnterior")} onPress={etapaAnterior} />
-        </>
+        </ScrollView>
 
     );
 }

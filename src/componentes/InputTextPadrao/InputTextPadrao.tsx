@@ -1,4 +1,5 @@
 import React from 'react';
+import {KeyboardAvoidingView} from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { InputProps } from '../../interfaces/ParametrosRequestTypes';
 import { campoStringVazio } from '../../utils/Validador';
@@ -10,7 +11,7 @@ export default({label, valor, setValor, mensagemErro, style}: InputProps) => {
     };
 
     return (
-        <>
+        <KeyboardAvoidingView>
             <TextInput
                 style={style} 
                 mode="outlined"
@@ -22,6 +23,6 @@ export default({label, valor, setValor, mensagemErro, style}: InputProps) => {
             <HelperText type="error" visible={hasErrors()}>
                 {mensagemErro}
             </HelperText>
-        </>
+        </KeyboardAvoidingView>
     );
 }

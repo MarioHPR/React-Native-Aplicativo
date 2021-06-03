@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Button } from 'react-native';
-import { Headline } from 'react-native-paper';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
@@ -12,16 +11,34 @@ interface Props {
     setContatoUm: Function;
     contatoDois: string;
     setContatoDois: Function;
+    setTela: Function;
 }
 
-export default function StepTres({setEtapa, setProgresso, contatoUm, contatoDois, setContatoUm, setContatoDois}: Props) {
+export default function StepTres({
+    setEtapa,
+    setProgresso,
+    contatoUm,
+    contatoDois,
+    setContatoUm,
+    setContatoDois,
+    setTela
+}: Props) {
+
+    useEffect(() => {
+        setTela(translate("cadastroUsuario.step3.title"));
+    }, [setTela]);
 
     const porcentagem = useMemo(() => {
-        return contatoUm !== "" && contatoDois !== "";
+        if( contatoUm !== "" && contatoDois !== ""){
+            setProgresso(1)
+            return true;
+        }
+        setProgresso(0.70)
+        return false;
     }, [contatoUm, contatoDois]);
 
     const t = () => {
-        porcentagem && setProgresso(1);
+        // porcentagem && setProgresso(1);
     };
 
     const etapaAnterior = () => {
@@ -29,9 +46,7 @@ export default function StepTres({setEtapa, setProgresso, contatoUm, contatoDois
     };
 
     return(
-        <>
-            <Headline style={styles.h3}>{translate("cadastroUsuario.step3.title")}</Headline >
-
+        <ScrollView>
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step3.contato1")}
                 valor={contatoUm}
@@ -50,7 +65,7 @@ export default function StepTres({setEtapa, setProgresso, contatoUm, contatoDois
 
             <Button disabled={!!!porcentagem} title={translate("botaoEnviar")} onPress={t} />
             <Button title={translate("botaoEtapaAnterior")} onPress={etapaAnterior} />
-        </>
+        </ScrollView>
 
     );
 }

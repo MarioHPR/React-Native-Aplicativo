@@ -3,15 +3,18 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     headerContainer: {
-        height: 2,
-        paddingBottom: 20,
+        height: 30,
+        paddingBottom: 30,
         backgroundColor: '#999',
-        color:'white'
+        color:'white',
+        flex: 1,
+        justifyContent: 'flex-start',
     },
     textoheader: {
         color:"white"
@@ -20,6 +23,7 @@ const styles = StyleSheet.create({
         height: 10,
     },
     marginTop: {
+        paddingTop: 20
     },
     h3: {
         textAlign: 'center',

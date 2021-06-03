@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Button } from 'react-native';
-import { Headline } from 'react-native-paper';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
@@ -18,24 +17,35 @@ interface Props {
     setEmail: Function;
     senha: string;
     setSenha: Function;
+    setTela: Function;
 }
 
 export default function StepUm({setProgresso, setEtapa, nome, cpf, dataNascimento, email, senha,
-setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
+setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
+
+    useEffect(() => {
+        setTela(translate("cadastroUsuario.step1.title"));
+    }, [setTela]);
 
     const porcentagem = useMemo(() => {
-        return cpf !== "" && nome !== "" && email !== "" && 
-        senha !== "" &&  dataNascimento !== "";
+        if(cpf !== "" && nome !== "" && email !== "" && 
+        senha !== "" &&  dataNascimento !== "") {
+            setProgresso(0.35);
+            return true;
+        }
+        setProgresso(0);
+        return false;
     }, [cpf, nome, email, senha, dataNascimento]);
 
     const t = () => {
-        porcentagem && setProgresso(0.35);
         porcentagem && setEtapa(2);
     };
 
     return(
-        <>
-            <Headline style={styles.h3}>{translate("cadastroUsuario.step1.title")}</Headline >
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+        >
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step1.nome")}
                 valor={nome}
@@ -49,7 +59,7 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
                 valor={cpf}
                 setValor={setCpf}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -57,7 +67,7 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
                 valor={dataNascimento}
                 setValor={setDataNascimento}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -65,7 +75,7 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
                 valor={email}
                 setValor={setEmail}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <InputTextPadrao 
@@ -73,11 +83,11 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha }: Props) {
                 valor={senha}
                 setValor={setSenha}
                 mensagemErro={("")}
-                style={styles.marginTop}
+                style={""}
             />
 
             <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />
-        </>
+        </ScrollView>
 
     );
 }
