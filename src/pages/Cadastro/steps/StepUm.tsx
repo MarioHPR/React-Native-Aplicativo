@@ -3,6 +3,8 @@ import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
+import {campoStringVazio} from '../../../utils/Validador';
+import {mascaraCpf, mascaraData} from '../../../utils/Mascaras';
 
 interface Props {
     setProgresso: Function;
@@ -20,12 +22,22 @@ interface Props {
     setTela: Function;
 }
 
+const mensagemPadrao = translate("alertPadrao");
+
+type KeyboardType = 
+    'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad' | 'decimal-pad';
+
 export default function StepUm({setProgresso, setEtapa, nome, cpf, dataNascimento, email, senha,
 setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
+    const [ mensagemNome, setMensagemNome ] = useState<string>("");
 
     useEffect(() => {
         setTela(translate("cadastroUsuario.step1.title"));
     }, [setTela]);
+
+    const verificaCampo = (valor: string):boolean => {
+        return campoStringVazio(valor);
+    }
 
     const porcentagem = useMemo(() => {
         if(cpf !== "" && nome !== "" && email !== "" && 
@@ -38,6 +50,8 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
     }, [cpf, nome, email, senha, dataNascimento]);
 
     const t = () => {
+        const flgNome = verificaCampo(nome);
+        flgNome && setMensagemNome(mensagemPadrao);
         porcentagem && setEtapa(2);
     };
 
@@ -50,8 +64,10 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
                 label={translate("cadastroUsuario.step1.nome")}
                 valor={nome}
                 setValor={setNome}
-                mensagemErro={("")}
+                mensagemErro={(mensagemNome)}
                 style={styles.marginTop}
+                typeKeybord={'default'}
+                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -60,6 +76,10 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
                 setValor={setCpf}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={14}
+                flgMascara={true}
+                mascara={mascaraCpf}
             />
 
             <InputTextPadrao 
@@ -68,6 +88,10 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
                 setValor={setDataNascimento}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={10}
+                flgMascara={true}
+                mascara={mascaraData}
             />
 
             <InputTextPadrao 
@@ -76,6 +100,8 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
                 setValor={setEmail}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'email-address'}
+                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -84,6 +110,8 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
                 setValor={setSenha}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'visible-password'}
+                flgMascara={false}
             />
 
             <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />

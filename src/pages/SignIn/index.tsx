@@ -50,7 +50,9 @@ const SignIn: React.FC = () => {
                 valor={email}
                 setValor={setEmail}
                 mensagemErro={mensagemEmail}
-                style={styles.marginTop} />
+                style={styles.marginTop}
+                typeKeybord={'email-address'}
+            />
 
             <InputPassWord 
                 label={translate("senha.title")}

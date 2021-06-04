@@ -3,6 +3,7 @@ import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
+import {mascaraCep} from '../../../utils/Mascaras';
 
 interface Props {
     setProgresso: Function;
@@ -56,6 +57,8 @@ export default function StepDois({
                 setValor={setCidade}
                 mensagemErro={("")}
                 style={styles.marginTop}
+                typeKeybord={'default'}
+                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -64,6 +67,10 @@ export default function StepDois({
                 setValor={setCep}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={11}
+                flgMascara={true}
+                mascara={mascaraCep}
             />
 
             <InputTextPadrao 
@@ -72,6 +79,8 @@ export default function StepDois({
                 setValor={setBairro}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'default'}
+                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -80,6 +89,8 @@ export default function StepDois({
                 setValor={setRua}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'default'}
+                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -88,6 +99,8 @@ export default function StepDois({
                 setValor={setNumero}
                 mensagemErro={("")}
                 style={""}
+                typeKeybord={'numeric'}
+                flgMascara={false}
             />
 
             <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />

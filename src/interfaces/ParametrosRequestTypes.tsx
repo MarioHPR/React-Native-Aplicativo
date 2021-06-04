@@ -1,3 +1,4 @@
+import { KeyboardType } from "react-native";
 import { ParametrosLogin } from "../models/Usuario";
 
 export interface AuthContextData {
@@ -16,6 +17,10 @@ export interface InputProps {
     setValor: Function;
     mensagemErro: string;
     style: any;
+    typeKeybord?: KeyboardType;
+    quantidadeCaracteres?: number;
+    flgMascara?: boolean;
+    mascara?: Function;
 }
 
 export interface ButtonProps {

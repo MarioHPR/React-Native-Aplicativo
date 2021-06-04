@@ -3,7 +3,7 @@ import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
-
+import {mascaraNumeroTelefone} from '../../../utils/Mascaras';
 interface Props {
     setProgresso: Function;
     setEtapa: Function;
@@ -53,6 +53,10 @@ export default function StepTres({
                 setValor={setContatoUm}
                 mensagemErro={("")}
                 style={styles.marginTop}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={18}
+                flgMascara={true}
+                mascara={mascaraNumeroTelefone}
             />
 
             <InputTextPadrao 
@@ -61,6 +65,10 @@ export default function StepTres({
                 setValor={setContatoDois}
                 mensagemErro={("")}
                 style={styles.marginTop}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={18}
+                flgMascara={true}
+                mascara={mascaraNumeroTelefone}
             />
 
             <Button disabled={!!!porcentagem} title={translate("botaoEnviar")} onPress={t} />
