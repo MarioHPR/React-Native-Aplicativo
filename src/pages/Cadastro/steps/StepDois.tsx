@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
+import InputTextMascaraCep from '../../../componentes/InputTextPadrao/InputTextMascaraCep';
 import { translate } from '../../../locales';
 import { UsuarioRequest } from '../../../models/Usuario';
 import styles from '../styles';
@@ -62,14 +63,12 @@ const StepDois: React.FC<Props> = ({setEtapa, setProgresso, progresso, setTela, 
                 typeKeybord={'default'}
             />
 
-            <InputTextPadrao 
+            <InputTextMascaraCep
                 label={translate("cadastroUsuario.step2.cep")}
                 valor={cep}
                 setValor={setCep}
-                mensagemErro={("")}
-                style={""}
-                typeKeybord={'numeric'}
-                quantidadeCaracteres={11}
+                mensagemErro={""}
+                style={styles.marginTop}
             />
 
             <InputTextPadrao 
@@ -92,7 +91,7 @@ const StepDois: React.FC<Props> = ({setEtapa, setProgresso, progresso, setTela, 
 
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step2.numero")}
-                valor={numero.toString()}
+                valor={numero === 0 ? "" : numero.toString()}
                 setValor={setNumero}
                 mensagemErro={("")}
                 style={""}
