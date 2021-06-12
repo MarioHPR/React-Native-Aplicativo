@@ -3,7 +3,7 @@ import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
-import { dataValida, verificaEmailInvalido, verificaSenhaInvalida} from '../../../utils/Validador';
+import { dataValida, localeDateToISO, verificaEmailInvalido, verificaSenhaInvalida} from '../../../utils/Validador';
 import InputTextMascaraData from '../../../componentes/InputTextPadrao/InputTextMascaraData';
 import InputTextMascaraCpf from '../../../componentes/InputTextPadrao/InputTextMascaraCpf';
 import InputPassWord from '../../../componentes/InputPassWord/InputPassWord';
@@ -59,7 +59,7 @@ const StepUm: React.FC<Props> = ({ setProgresso, progresso, setEtapa, setTela, r
             setProgresso(aux)
             request.nome = nome;
             request.cpf = cpf;
-            request.dataNascimento = dataNascimento;
+            request.dataNascimento = localeDateToISO(dataNascimento);
             request.email = email;
             request.senha = senha;
         }

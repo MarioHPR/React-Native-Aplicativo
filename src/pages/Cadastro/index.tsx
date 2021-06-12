@@ -13,7 +13,7 @@ const CadastroUsuario: React.FC = () => {
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
     const [ tela, setTela ] = useState<string>("");
-    const [ request, setRequest ] = useState<UsuarioRequest>({
+    const [ request ] = useState<UsuarioRequest>({
         nome: "",
         dataNascimento: "",
         cpf: "",
