@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
 
 import { AuthContextData } from '../interfaces/ParametrosRequestTypes';
-import { ParametrosLogin } from '../models/Usuario';
+import { ParametrosLogin, UsuarioRequest } from '../models/Usuario';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -37,13 +37,22 @@ export const AuthProvider: React.FC = ({ children }) => {
         });        
     }
 
+    async function cadastrarUsuario(request:UsuarioRequest) {
+        const response = await api.post('/api/usuario/salvar', JSON.stringify(request));
+        console.log("wqeqweqweqw")
+        console.log("wqeqweqweqw")
+        console.log(response)
+        console.log("wqeqweqweqw")
+        console.log("wqeqweqweqw")
+    }
+
     async function navegarCadastroUsuario() {
         let aux = !novoUsuario;
         setNovoUsuario(aux);       
     }
 
     return (
-        <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario}}>
+        <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario, cadastrarUsuario}}>
             {children}
         </AuthContext.Provider>
     );

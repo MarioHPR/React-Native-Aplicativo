@@ -40,7 +40,6 @@ const SignIn: React.FC = () => {
             signIn(parametros);
         }
     }
-
     return (
         <View style={styles.container}>
             <Headline  style={styles.h3}>{translate("tituloApp")}</Headline >
@@ -52,6 +51,9 @@ const SignIn: React.FC = () => {
                 mensagemErro={mensagemEmail}
                 style={styles.marginTop}
                 typeKeybord={'email-address'}
+                quantidadeCaracteres={100}
+                flgMascara={false}
+                mascara={() => {}}
             />
 
             <InputPassWord 

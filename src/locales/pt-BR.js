@@ -11,7 +11,7 @@ export default PtBr = {
         title: "Senha",
         error: {
             alertMinimoCaracter: "Minímo de 6 caracteres!",
-        }
+        },
     },
     botaoEntrar: "Entrar ",
     botaoCadastrar: "Cadastrar-se ",
@@ -19,12 +19,17 @@ export default PtBr = {
     botaoProximaEtapa: "Próxima etapa",
     botaoEtapaAnterior: "Etapa anterior",
     botaoEnviar: "Enviar cadastro",
+    error: {
+        data: "Data invalida!",
+        cpf: "Cpf invalido!",
+    },
     cadastroUsuario: {
         step1: {
             title: "Dados pessoais",
             nome: "Nome completo",
             cpf: "Cpf",
             dataNascimento: "Data nascimento",
+            dataPicker: "Selecione sua data de nascimento",
             email: "E-mail",
             senha: "Senha"
         },

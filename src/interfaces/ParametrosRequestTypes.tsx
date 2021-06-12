@@ -1,5 +1,5 @@
 import { KeyboardType } from "react-native";
-import { ParametrosLogin } from "../models/Usuario";
+import { ParametrosLogin, Step1, UsuarioRequest } from "../models/Usuario";
 
 export interface AuthContextData {
     signed: boolean;
@@ -9,12 +9,17 @@ export interface AuthContextData {
     signOut(): void;
     novoUsuario: boolean;
     navegarCadastroUsuario(): void;
+    cadastrarUsuario: Function;
+}
+
+export interface AuthContextUsuario {
+    step1(parametros:Step1): Promise<void>;
 }
 
 export interface InputProps {
     label: string;
     valor: string;
-    setValor: Function;
+    setValor: any;
     mensagemErro: string;
     style: any;
     typeKeybord?: KeyboardType;

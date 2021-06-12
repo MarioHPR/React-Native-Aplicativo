@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {KeyboardAvoidingView} from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { InputProps } from '../../interfaces/ParametrosRequestTypes';
-import { mascaraCep } from '../../utils/Mascaras';
 import { campoStringVazio } from '../../utils/Validador';
 
 export default({
@@ -12,25 +11,12 @@ export default({
     mensagemErro,
     style,
     typeKeybord,
-    quantidadeCaracteres,
-    flgMascara,
-    mascara,
+    quantidadeCaracteres
 }: InputProps) => {
-
-    const [ valorDigitado, setValorDigitado ] = useState<string>(valor);
 
     const hasErrors = () => {
         return campoStringVazio(valor) || mensagemErro !== "";
     };
-
-    useMemo(() => {
-        if(flgMascara){
-            const value = mascara(valorDigitado);
-            setValor(value);
-            return;
-        }
-        setValor(valorDigitado);
-    },[mascara, flgMascara, valorDigitado]);
 
     return (
         <KeyboardAvoidingView>
@@ -41,10 +27,8 @@ export default({
                 keyboardType={typeKeybord}
                 value={valor}
                 maxLength={quantidadeCaracteres || 100}
-                // defaultValue={t || ''}
-                onChangeText={(value:string) => {
-                    setValorDigitado(value.trim())
-                }}
+                defaultValue={valor || ''}
+                onChangeText={(value:string) => setValor(value.trim())}
                 error={mensagemErro !== "" ? true : false}
             />
             <HelperText type="error" visible={hasErrors()}>

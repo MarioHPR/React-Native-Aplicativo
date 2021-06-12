@@ -3,57 +3,67 @@ import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
 import styles from '../styles';
-import {campoStringVazio} from '../../../utils/Validador';
-import {mascaraCpf, mascaraData} from '../../../utils/Mascaras';
-
+import { dataValida, verificaEmailInvalido, verificaSenhaInvalida} from '../../../utils/Validador';
+import InputTextMascaraData from '../../../componentes/InputTextPadrao/InputTextMascaraData';
+import InputTextMascaraCpf from '../../../componentes/InputTextPadrao/InputTextMascaraCpf';
+import InputPassWord from '../../../componentes/InputPassWord/InputPassWord';
+import { UsuarioRequest } from '../../../models/Usuario';
 interface Props {
     setProgresso: Function;
+    progresso: number;
     setEtapa: Function;
-    nome: string;
-    setNome: Function;
-    cpf: string;
-    setCpf: Function;
-    dataNascimento: string;
-    setDataNascimento: Function;
-    email: string;
-    setEmail: Function;
-    senha: string;
-    setSenha: Function;
+    request: UsuarioRequest;
     setTela: Function;
 }
 
-const mensagemPadrao = translate("alertPadrao");
+const StepUm: React.FC<Props> = ({ setProgresso, progresso, setEtapa, setTela, request }) => {
 
-type KeyboardType = 
-    'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad' | 'decimal-pad';
+    const [ nome, setNome ] = useState<string>(request.nome);
+    const [ cpf, setCpf ] = useState<string>(request.cpf);
+    const [ dataNascimento, setDataNascimento ] =useState<string>(request.dataNascimento);
+    const [ email, setEmail ] = useState<string>(request.email);
+    const [ senha, setSenha ] = useState<string>(request.senha);
 
-export default function StepUm({setProgresso, setEtapa, nome, cpf, dataNascimento, email, senha,
-setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
-    const [ mensagemNome, setMensagemNome ] = useState<string>("");
+    const [ mensagemDataNascimento, setMensagemDataNascimento ] = useState<string>("");
+    const [ mensagemEmail, setMensagemEmail ] = useState<string>("");
+    const [ mensagemSenha, setMensagemSenha ] = useState<string>("");
+
+    const error = useMemo(() => {
+        return (mensagemDataNascimento === "" && 
+        mensagemEmail === "" && mensagemSenha === "");
+    }, [mensagemDataNascimento, mensagemEmail, mensagemSenha]);
+
+    const porcentagem = useMemo(() => {
+        if(cpf !== "" && nome !== "" && email !== "" && 
+        senha !== "" &&  dataNascimento !== "") {
+            setMensagemDataNascimento(dataValida(dataNascimento));
+            setMensagemEmail(verificaEmailInvalido(email));
+            setMensagemSenha(verificaSenhaInvalida(senha));
+            return false;
+        }
+        return true;
+    }, [cpf, nome, email, senha, dataNascimento]);
+
+    const enviarProximaEtapa = () => {
+        !!!porcentagem && error && setEtapa(2);
+    };
 
     useEffect(() => {
         setTela(translate("cadastroUsuario.step1.title"));
     }, [setTela]);
 
-    const verificaCampo = (valor: string):boolean => {
-        return campoStringVazio(valor);
-    }
-
-    const porcentagem = useMemo(() => {
+    useEffect(() => {  
         if(cpf !== "" && nome !== "" && email !== "" && 
-        senha !== "" &&  dataNascimento !== "") {
-            setProgresso(0.35);
-            return true;
+        senha !== "" &&  dataNascimento !== "" && error) {
+            let aux: number = progresso < 0.35 ? 0.35 : progresso;
+            setProgresso(aux)
+            request.nome = nome;
+            request.cpf = cpf;
+            request.dataNascimento = dataNascimento;
+            request.email = email;
+            request.senha = senha;
         }
-        setProgresso(0);
-        return false;
     }, [cpf, nome, email, senha, dataNascimento]);
-
-    const t = () => {
-        const flgNome = verificaCampo(nome);
-        flgNome && setMensagemNome(mensagemPadrao);
-        porcentagem && setEtapa(2);
-    };
 
     return(
         <ScrollView
@@ -63,59 +73,49 @@ setNome, setCpf, setDataNascimento, setEmail, setSenha, setTela }: Props) {
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step1.nome")}
                 valor={nome}
-                setValor={setNome}
-                mensagemErro={(mensagemNome)}
+                setValor={ setNome }
+                mensagemErro={""}
                 style={styles.marginTop}
                 typeKeybord={'default'}
-                flgMascara={false}
+                quantidadeCaracteres={100}
             />
 
-            <InputTextPadrao 
+            <InputTextMascaraCpf
                 label={translate("cadastroUsuario.step1.cpf")}
                 valor={cpf}
                 setValor={setCpf}
-                mensagemErro={("")}
-                style={""}
-                typeKeybord={'numeric'}
-                quantidadeCaracteres={14}
-                flgMascara={true}
-                mascara={mascaraCpf}
+                mensagemErro={""}
+                style={styles.marginTop}
             />
 
-            <InputTextPadrao 
+            <InputTextMascaraData
                 label={translate("cadastroUsuario.step1.dataNascimento")}
                 valor={dataNascimento}
                 setValor={setDataNascimento}
-                mensagemErro={("")}
-                style={""}
-                typeKeybord={'numeric'}
-                quantidadeCaracteres={10}
-                flgMascara={true}
-                mascara={mascaraData}
+                mensagemErro={!!!error ? mensagemDataNascimento : ""}
+                style={styles.marginTop}
             />
-
+            
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step1.email")}
                 valor={email}
                 setValor={setEmail}
-                mensagemErro={("")}
+                mensagemErro={!!!error ? mensagemEmail : ""}
                 style={""}
                 typeKeybord={'email-address'}
-                flgMascara={false}
+                quantidadeCaracteres={50}
             />
 
-            <InputTextPadrao 
+            <InputPassWord 
                 label={translate("cadastroUsuario.step1.senha")}
                 valor={senha}
                 setValor={setSenha}
-                mensagemErro={("")}
-                style={""}
-                typeKeybord={'visible-password'}
-                flgMascara={false}
-            />
+                mensagemErro={!!!error ? mensagemSenha : ""}
+                style={styles.marginTop} />
 
-            <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />
+            <Button disabled={porcentagem} title={translate("botaoProximaEtapa")} onPress={enviarProximaEtapa} />
         </ScrollView>
-
     );
 }
+
+export default StepUm;

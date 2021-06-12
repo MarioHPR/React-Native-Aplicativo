@@ -18,6 +18,7 @@ export default({label, valor, setValor, mensagemErro, style}: InputProps) => {
                 mode="outlined"
                 label={label}
                 secureTextEntry={trocarIcone}
+                value={valor}
                 right={
                     <TextInput.Icon name={ trocarIcone ? "eye-off" : "eye" }
                         onPress={ () => setTrocarIcone(!trocarIcone)}

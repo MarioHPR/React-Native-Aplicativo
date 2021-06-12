@@ -2,52 +2,54 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button, ScrollView } from 'react-native';
 import InputTextPadrao from '../../../componentes/InputTextPadrao/InputTextPadrao';
 import { translate } from '../../../locales';
+import { UsuarioRequest } from '../../../models/Usuario';
 import styles from '../styles';
-import {mascaraCep} from '../../../utils/Mascaras';
 
 interface Props {
     setProgresso: Function;
+    progresso: number;
     setEtapa: Function;
-    cidade: string;
-    setCidade: Function;
-    cep: string;
-    setCep: Function;
-    bairro: string;
-    setBairro: Function;
-    rua: string;
-    setRua: Function;
-    numero: string;
-    setNumero: Function;
     setTela: Function;
+    request: UsuarioRequest;
 }
 
-export default function StepDois({
-    setEtapa, setProgresso,
-    cidade, cep, bairro, rua, numero,
-    setCidade, setCep, setBairro, setRua, setNumero, setTela
-}: Props) {
+const StepDois: React.FC<Props> = ({setEtapa, setProgresso, progresso, setTela, request}) => {
 
-    useEffect(() => {
-        setTela(translate("cadastroUsuario.step2.title"));
-    }, [setTela]);
+    const [ cidade, setCidade ] = useState<string>(request.cidade);
+    const [ cep, setCep ] = useState<string>(request.cep);
+    const [ bairro, setBairro ] = useState<string>(request.bairro);
+    const [ rua, setRua ] = useState<string>(request.rua);
+    const [ numero, setNumero ] = useState<number>(request.numero);
 
     const porcentagem = useMemo(() => {
-        if(cidade !== "" && cep !== "" &&
-            bairro !== "" && rua !== "" && numero !== ""){
-                setProgresso(0.70);
-                return true;
-        }
-        setProgresso(0.35);
-        return false;
+        return (cidade !== "" && cep !== "" &&
+            bairro !== "" && rua !== "" && numero !== 0);
     }, [cidade, cep, bairro, rua, numero]);
 
-    const t = () => {
-        setEtapa(3);
+    const enviarProximaEtapa = () => {
+        porcentagem && setEtapa(3);
     };
 
     const etapaAnterior = () => {
         setEtapa(1);
     };
+
+    useEffect(() => {
+        setTela(translate("cadastroUsuario.step2.title"));
+    }, [setTela]);
+
+    useEffect(() => {  
+        if(cidade !== "" && cep !== "" &&
+        bairro !== "" && rua !== "" && numero !== 0) {
+            let aux: number = progresso < 0.7 ? 0.7 : progresso;
+            setProgresso(aux)
+            request.cidade = cidade;
+            request.cep = cep;
+            request.bairro = bairro;
+            request.rua = rua;
+            request.numero = numero;
+        }
+    }, [cidade, cep, bairro, rua, numero]);
 
     return(
         <ScrollView>
@@ -58,7 +60,6 @@ export default function StepDois({
                 mensagemErro={("")}
                 style={styles.marginTop}
                 typeKeybord={'default'}
-                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -69,8 +70,6 @@ export default function StepDois({
                 style={""}
                 typeKeybord={'numeric'}
                 quantidadeCaracteres={11}
-                flgMascara={true}
-                mascara={mascaraCep}
             />
 
             <InputTextPadrao 
@@ -80,7 +79,6 @@ export default function StepDois({
                 mensagemErro={("")}
                 style={""}
                 typeKeybord={'default'}
-                flgMascara={false}
             />
 
             <InputTextPadrao 
@@ -90,22 +88,22 @@ export default function StepDois({
                 mensagemErro={("")}
                 style={""}
                 typeKeybord={'default'}
-                flgMascara={false}
             />
 
             <InputTextPadrao 
                 label={translate("cadastroUsuario.step2.numero")}
-                valor={numero}
+                valor={numero.toString()}
                 setValor={setNumero}
                 mensagemErro={("")}
                 style={""}
                 typeKeybord={'numeric'}
-                flgMascara={false}
             />
 
-            <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={t} />
+            <Button disabled={!!!porcentagem} title={translate("botaoProximaEtapa")} onPress={enviarProximaEtapa} />
             <Button title={translate("botaoEtapaAnterior")} onPress={etapaAnterior} />
         </ScrollView>
 
     );
 }
+
+export default StepDois;

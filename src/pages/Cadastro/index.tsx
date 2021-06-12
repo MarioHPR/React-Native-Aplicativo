@@ -1,38 +1,41 @@
-import React, { useMemo, useState } from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { useAuth } from '../../contexts/auth';
-import { translate } from '../../locales';
 import styles from './styles';
 import { Appbar, ProgressBar, Colors } from 'react-native-paper';
-import InputTextPadrao from '../../componentes/InputTextPadrao/InputTextPadrao';
 import StepUm from './steps/StepUm';
 import StepDois from './steps/StepDois';
 import StepTres from './steps/StepTres';
+import { UsuarioRequest } from '../../models/Usuario';
 
 const CadastroUsuario: React.FC = () => {
-
-    const { navegarCadastroUsuario } = useAuth();
+    const { navegarCadastroUsuario, cadastrarUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
     const [ tela, setTela ] = useState<string>("");
-    const [ nome, setNome ] = useState<string>('');
-    const [ cpf, setCpf ] = useState<string>('');
-    const [ dataNascimento, setDataNascimento ] =useState<string>('');
-    const [ email, setEmail ] = useState<string>('');
-    const [ senha, setSenha ] = useState<string>('');
-
-    const [ cidade, setCidade ] = useState<string>('');
-    const [ cep, setCep ] = useState<string>('');
-    const [ bairro, setBairro ] = useState<string>('');
-    const [ rua, setRua ] = useState<string>('');
-    const [ numero, setNumero ] = useState<string>('');
-
-    const [ contatoUm, setContatoUm ] = useState<string>('');
-    const [ contatoDois, setContatoDois ] = useState<string>('');
+    const [ request, setRequest ] = useState<UsuarioRequest>({
+        nome: "",
+        dataNascimento: "",
+        cpf: "",
+        email: "",
+        senha: "",
+        contatoUm: "",
+        contatoDois: "",
+        cidade: "",
+        cep: "",
+        bairro: "",
+        rua: "",
+        numero: 0
+    });
     
     function handleSignOut() {
         navegarCadastroUsuario();
     }
+
+    useEffect(() => {
+        if(request)
+            console.log(request);
+    },[request, etapa])
 
     return (
         <>
@@ -48,44 +51,37 @@ const CadastroUsuario: React.FC = () => {
                 {
                     etapa === 1  &&
                         <StepUm 
-                            setProgresso={setProgresso} setEtapa={setEtapa}
-                            nome={nome} setNome={setNome}
-                            cpf={cpf} setCpf={setCpf}
-                            dataNascimento={dataNascimento} setDataNascimento={setDataNascimento}
-                            email={email} setEmail={setEmail}
-                            senha={senha} setSenha={setSenha}
+                            setProgresso={setProgresso}
+                            progresso={progresso}
+                            setEtapa={setEtapa}
                             setTela={setTela}
+                            request={request}
                         />
                 }
                 {
                     etapa === 2 &&
                         <StepDois
-                            setProgresso={setProgresso} setEtapa={setEtapa}
-                            cidade={cidade} setCidade={setCidade}
-                            cep={cep} setCep={setCep}
-                            bairro={bairro} setBairro={setBairro}
-                            rua={rua} setRua={setRua}
-                            numero={numero} setNumero={setNumero}
+                            setProgresso={setProgresso}
+                            progresso={progresso}
+                            setEtapa={setEtapa}
                             setTela={setTela}
+                            request={request}
                             />
                 }
                 {
                     etapa === 3 &&
                         <StepTres 
-                            setProgresso={setProgresso} setEtapa={setEtapa}
-                            contatoUm={contatoUm} setContatoUm={setContatoUm}
-                            contatoDois={contatoDois} setContatoDois={setContatoDois}
+                            setProgresso={setProgresso}
+                            progresso={progresso}
+                            setEtapa={setEtapa}
                             setTela={setTela}
+                            // cadastrar={()=>{}}
+                            request={request}
                         />
                 }
 
             </View>
         </>
-        // <View style={styles.container}>
-            
-        //     <Text>{user}</Text>
-        //     <Button title="Logout" onPress={handleSignOut} />
-        // </View>
     )
 };
 
