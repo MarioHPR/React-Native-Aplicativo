@@ -23,7 +23,7 @@ const StepTres: React.FC<Props> = ({setEtapa, setProgresso, progresso, setTela, 
     }, [contatoUm, contatoDois]);
 
     const enviar = () => {
-        console.log("adsadsa")
+        cadastrar();
     };
 
     const etapaAnterior = () => {

@@ -60,7 +60,7 @@ const StepUm: React.FC<Props> = ({ setProgresso, progresso, setEtapa, setTela, r
             request.nome = nome;
             request.cpf = cpf;
             request.dataNascimento = localeDateToISO(dataNascimento);
-            request.email = email;
+            request.email = email.toLowerCase();
             request.senha = senha;
         }
     }, [cpf, nome, email, senha, dataNascimento]);

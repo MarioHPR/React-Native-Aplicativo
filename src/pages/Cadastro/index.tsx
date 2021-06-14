@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import styles from './styles';
@@ -9,7 +9,7 @@ import StepTres from './steps/StepTres';
 import { UsuarioRequest } from '../../models/Usuario';
 
 const CadastroUsuario: React.FC = () => {
-    const { navegarCadastroUsuario, cadastrarUsuario } = useAuth();
+    const { cadastrarUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
     const [ tela, setTela ] = useState<string>("");
@@ -29,13 +29,9 @@ const CadastroUsuario: React.FC = () => {
     });
     
     function handleSignOut() {
-        navegarCadastroUsuario();
+        console.log("envio", request);
+        cadastrarUsuario(request);
     }
-
-    useEffect(() => {
-        if(request)
-            console.log(request);
-    },[request, etapa])
 
     return (
         <>
@@ -75,7 +71,7 @@ const CadastroUsuario: React.FC = () => {
                             progresso={progresso}
                             setEtapa={setEtapa}
                             setTela={setTela}
-                            // cadastrar={()=>{}}
+                            cadastrar={handleSignOut}
                             request={request}
                         />
                 }

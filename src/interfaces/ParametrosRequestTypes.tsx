@@ -9,7 +9,7 @@ export interface AuthContextData {
     signOut(): void;
     novoUsuario: boolean;
     navegarCadastroUsuario(): void;
-    cadastrarUsuario: Function;
+    cadastrarUsuario(request:UsuarioRequest): Promise<void>;
 }
 
 export interface AuthContextUsuario {

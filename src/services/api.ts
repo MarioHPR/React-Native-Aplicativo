@@ -2,6 +2,11 @@ import axios from 'axios';
 
 const api = axios.create({
     baseURL: 'https:/back-geranciador-exames.herokuapp.com/',
+    headers: { 
+      'Content-Type': 'application/json;charset=UTF-8',
+      "Access-Control-Allow-Origin": "*",
+      'Authorization': ' '
+    }
 })
 
 export default api;

@@ -38,12 +38,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function cadastrarUsuario(request:UsuarioRequest) {
-        const response = await api.post('/api/usuario/salvar', JSON.stringify(request));
-        console.log("wqeqweqweqw")
-        console.log("wqeqweqweqw")
-        console.log(response)
-        console.log("wqeqweqweqw")
-        console.log("wqeqweqweqw")
+       await api.post('/api/usuario/salvar', JSON.stringify(request));
+       setNovoUsuario(false);
     }
 
     async function navegarCadastroUsuario() {
