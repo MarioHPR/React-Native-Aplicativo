@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { useAuth } from '../../contexts/auth';
-
+import { Appbar } from 'react-native-paper';
+import DrawerContent from '../../componentes/Drawer/DrawerContent';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -17,12 +18,21 @@ const Dashboard: React.FC = () => {
     function handleSignOut() {
         signOut();
     }
-
+    const _handleMore = () => console.log('Shown more');
     return (
-        <View style={styles.container}>
-            <Text>{user}</Text>
-            <Button title="Sign out" onPress={handleSignOut} />
-        </View>
+        <>
+            <Appbar.Header >
+                {/* <Appbar.BackAction 
+                    color='white'
+                    onPress={handleSignOut} /> */}
+                <Appbar.Content title="DashBoard" subtitle={" "} color='white' />
+                <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+            </Appbar.Header>
+            <View style={styles.container}>
+                <Text>{user}</Text>
+                <Button title="Sign out" onPress={handleSignOut} />
+            </View>
+        </>
     )
 };
 

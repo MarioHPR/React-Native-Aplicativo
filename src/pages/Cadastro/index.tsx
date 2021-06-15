@@ -9,7 +9,7 @@ import StepTres from './steps/StepTres';
 import { UsuarioRequest } from '../../models/Usuario';
 
 const CadastroUsuario: React.FC = () => {
-    const { cadastrarUsuario } = useAuth();
+    const { cadastrarUsuario, navegarCadastroUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
     const [ tela, setTela ] = useState<string>("");
@@ -28,9 +28,12 @@ const CadastroUsuario: React.FC = () => {
         numero: 0
     });
     
-    function handleSignOut() {
-        console.log("envio", request);
+    function cadastrar() {
         cadastrarUsuario(request);
+    }
+
+    function handleSignOut() {
+        navegarCadastroUsuario();
     }
 
     return (
@@ -71,7 +74,7 @@ const CadastroUsuario: React.FC = () => {
                             progresso={progresso}
                             setEtapa={setEtapa}
                             setTela={setTela}
-                            cadastrar={handleSignOut}
+                            cadastrar={cadastrar}
                             request={request}
                         />
                 }
