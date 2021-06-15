@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import { Appbar } from 'react-native-paper';
-import DrawerContent from '../../componentes/Drawer/DrawerContent';
+import {AlergiaRestricao} from '../../models/AlergiaRestricao';
+import alergiaRestricaoApi from '../../services/alergiaRestricaoApi';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -13,20 +15,30 @@ const styles = StyleSheet.create({
 
 const Dashboard: React.FC = () => {
 
+    const [ listaInfos, setListaInfos ] = useState<AlergiaRestricao[]>([]);
+
     const { user, signOut } = useAuth();
 
     function handleSignOut() {
         signOut();
     }
-    const _handleMore = () => console.log('Shown more');
+    // const listagemAlergiasRestricoes = useCallback(() => {
+    //     // alergiaRestricaoApi.get('api/restricoes/').then( resp => {
+    //     //     if(resp.status === 200){
+    //     //         console.log(resp)
+    //     //     }
+    //     // });
+    // }, [alergiaRestricaoApi]);
+
+    // useEffect(() => {
+    //     listagemAlergiasRestricoes();
+    // }, [])
+
+    // const _handleMore = () => console.log('Shown more');
     return (
         <>
             <Appbar.Header >
-                {/* <Appbar.BackAction 
-                    color='white'
-                    onPress={handleSignOut} /> */}
-                <Appbar.Content title="DashBoard" subtitle={" "} color='white' />
-                <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+                <Appbar.Content title="Alergias e restrições" color='white' />
             </Appbar.Header>
             <View style={styles.container}>
                 <Text>{user}</Text>
