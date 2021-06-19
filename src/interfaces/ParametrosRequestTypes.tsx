@@ -1,4 +1,5 @@
 import { KeyboardType } from "react-native";
+import { AlergiaRestricao } from "../models/AlergiaRestricao";
 import { ParametrosLogin, Step1, UsuarioRequest } from "../models/Usuario";
 
 export interface AuthContextData {
@@ -10,6 +11,11 @@ export interface AuthContextData {
     novoUsuario: boolean;
     navegarCadastroUsuario(): void;
     cadastrarUsuario(request:UsuarioRequest): Promise<void>;
+}
+
+export interface AuthRestricoes {
+    listaInfos: AlergiaRestricao[];
+    listarRestricoes(): Promise<void>;
 }
 
 export interface AuthContextUsuario {
@@ -34,4 +40,10 @@ export interface ButtonProps {
     style: any;
     icon: any;
     type: any;
+}
+export interface ErrorAPI {
+    code: string;
+    details: ErrorAPI[];
+    error: string;
+    message: string;
 }

@@ -12,19 +12,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [ loading, setLoading ] = useState(false);
     const [ novoUsuario, setNovoUsuario ] = useState(false);
 
-    useEffect(() => {
-        async function loadStoragedData() {
-            const storageToken = await AsyncStorage.getItem('@GEAuth:token');
-            if(storageToken) {
-                api.defaults.headers.Authorization = `${storageToken}`;
-                setUser(storageToken);
-                setLoading(false);
-            }
-        }
-
-        loadStoragedData();
-    }, []);
-
     async function signIn(parametros:ParametrosLogin) {   
         const response = await api.post('/login', parametros);
         await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
@@ -46,6 +33,19 @@ export const AuthProvider: React.FC = ({ children }) => {
         let aux = !novoUsuario;
         setNovoUsuario(aux);       
     }
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            const storageToken = await AsyncStorage.getItem('@GEAuth:token');
+            if(storageToken) {
+                api.defaults.headers.Authorization = `${storageToken}`;
+                setUser(storageToken);
+                setLoading(false);
+            }
+        }
+
+        loadStoragedData();
+    }, []);
 
     return (
         <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario, cadastrarUsuario}}>

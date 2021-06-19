@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import { Appbar } from 'react-native-paper';
 import {AlergiaRestricao} from '../../models/AlergiaRestricao';
-import alergiaRestricaoApi from '../../services/alergiaRestricaoApi';
+import AlergiaRestricaoApi from '../../services/alergiaRestricaoApi';
 
 const styles = StyleSheet.create({
     container: {
@@ -15,26 +15,27 @@ const styles = StyleSheet.create({
 
 const Dashboard: React.FC = () => {
 
-    const [ listaInfos, setListaInfos ] = useState<AlergiaRestricao[]>([]);
+    const [ listaInfos, setListaInfos ] = useState<AlergiaRestricao[]>();
 
     const { user, signOut } = useAuth();
-
     function handleSignOut() {
         signOut();
     }
-    // const listagemAlergiasRestricoes = useCallback(() => {
-    //     // alergiaRestricaoApi.get('api/restricoes/').then( resp => {
-    //     //     if(resp.status === 200){
-    //     //         console.log(resp)
-    //     //     }
-    //     // });
-    // }, [alergiaRestricaoApi]);
 
-    // useEffect(() => {
-    //     listagemAlergiasRestricoes();
-    // }, [])
+    async function listarRestricoes() {
+        const api = new AlergiaRestricaoApi();
+        await api.listar(user).then( resp => {
+            if(resp.status === 200) {
+                console.log(resp.data)
+                setListaInfos(resp.data);
+            }
+        });
+    }
 
-    // const _handleMore = () => console.log('Shown more');
+    useEffect(() => {
+        listarRestricoes()
+    }, [])
+
     return (
         <>
             <Appbar.Header >
@@ -43,6 +44,9 @@ const Dashboard: React.FC = () => {
             <View style={styles.container}>
                 <Text>{user}</Text>
                 <Button title="Sign out" onPress={handleSignOut} />
+                {
+                    listaInfos && listaInfos.map( item => (<Text key={item.id}>{item.descricao}</Text>))
+                }
             </View>
         </>
     )
