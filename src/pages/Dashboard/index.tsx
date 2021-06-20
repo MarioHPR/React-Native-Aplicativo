@@ -22,6 +22,9 @@ const Dashboard: React.FC = () => {
     const [ listaInfos, setListaInfos ] = useState<AlergiaRestricao[]>();
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
 
+    const [ tipo, setTipo ] = useState<string>('');
+    const [ descricao, setDescricao ] = useState<string>('');
+
     const { user, signOut } = useAuth();
     function handleSignOut() {
         signOut();
@@ -47,6 +50,7 @@ const Dashboard: React.FC = () => {
             <Appbar.Header >
                 <Appbar.Content title="Alergias e restrições" color='white' />
             </Appbar.Header>
+            <ScrollView>
             <View style={styles.container}>
                 <Button title="Sign out" onPress={handleSignOut} />
                 <ScrollView>
@@ -54,8 +58,11 @@ const Dashboard: React.FC = () => {
                     listaInfos && listaInfos.map( item => ( <RowRestricao key={item.id} id={item.id} tipo={item.tipo} descricao={item.descricao} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
                 }
                 </ScrollView>
-                <ModalRestricao />
+                <ModalRestricao tipoModal={true} tipo={tipo} setTipo={setTipo} 
+                descricao={descricao} setDescricao={setDescricao} 
+                atualizar={atualizar} setAtualizar={setAtualizar} />
             </View>
+            </ScrollView>
         </>
     )
 };

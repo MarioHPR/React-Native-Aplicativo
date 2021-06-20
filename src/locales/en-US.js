@@ -51,5 +51,12 @@ export default EnUs = {
     btExcluir: "  Delete",
     btEditar: "  To edit",
     btcancelar: "  Cancel",
-    btAdd: "To add"
+    btAdd: "To add",
+    alergiaRestricao: {
+        titleAdd: "Add new note",
+        titleEdit: "Edit annotation",
+        tipo: "Restriction type",
+        descricao: "Description",
+        operacao: "Operation"
+    }
 }

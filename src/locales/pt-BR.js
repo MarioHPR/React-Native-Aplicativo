@@ -51,5 +51,12 @@ export default PtBr = {
     btExcluir: "  Excluir",
     btEditar: "  Editar",
     btcancelar: "  Cancelar",
-    btAdd: "Adicionar"
+    btAdd: "Adicionar",
+    alergiaRestricao: {
+        titleAdd: "Adicionar nova anotação",
+        titleEdit: "Editar anotação",
+        tipo: "Tipo restrição",
+        descricao: "Descrição",
+        operacao: "Operação"
+    }
 }

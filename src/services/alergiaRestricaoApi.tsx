@@ -24,7 +24,7 @@ export default class AlergiaRestricaoApi {
 
     addNovo( request: AlergiaRestricaoRequest, token: string ) {
         const alergiaRestricaoApi = this.headerRequest(token);
-        const response = alergiaRestricaoApi.post('api/restricoes/salvar', request );
+        const response = alergiaRestricaoApi.post('api/restricoes/salvar', JSON.stringify(request) );
         return response;
     }
     
