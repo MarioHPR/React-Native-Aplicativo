@@ -19,6 +19,10 @@ export default EnUs = {
     botaoProximaEtapa: "Next step",
     botaoEtapaAnterior: "Previous step",
     botaoEnviar: "Send registration",
+    error: {
+        data: "invalid date!",
+        cpf: "Invalid CPF!",
+    },
     cadastroUsuario: {
         step1: {
             title: "Personal data",
@@ -43,6 +47,9 @@ export default EnUs = {
             contato1: "Primary contact",
             contato2: "Secondary contact"
         }
-        
-    }
+    },
+    btExcluir: "  Delete",
+    btEditar: "  To edit",
+    btcancelar: "  Cancel",
+    btAdd: "To add"
 }

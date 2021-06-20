@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AlergiaRestricaoRequest } from '../models/AlergiaRestricao';
 
 const baseURL = 'https:/back-geranciador-exames.herokuapp.com/';
 
@@ -15,9 +16,28 @@ export default class AlergiaRestricaoApi {
         }) 
     }
 
-    listar(token: string) {  
+    listar( token: string ) {  
         const alergiaRestricaoApi = this.headerRequest(token);
         const response = alergiaRestricaoApi.get('api/restricoes/');
+        return response;
+    }
+
+    addNovo( request: AlergiaRestricaoRequest, token: string ) {
+        const alergiaRestricaoApi = this.headerRequest(token);
+        const response = alergiaRestricaoApi.post('api/restricoes/salvar', request );
+        return response;
+    }
+    
+    editar( id: string,  request: AlergiaRestricaoRequest, token: string ) {
+        const alergiaRestricaoApi = this.headerRequest(token);
+        const response = alergiaRestricaoApi.put( `api/restricoes/editar/${id}`, request );
+        return response;
+    }
+    
+    excluir( id: string, token: string ) {
+        console.log("excluir api id ", id)
+        const alergiaRestricaoApi = this.headerRequest(token);
+        const response = alergiaRestricaoApi.delete(`api/restricoes/deletar/${id}`);
         return response;
     }
 };

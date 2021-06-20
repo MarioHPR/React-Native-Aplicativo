@@ -29,7 +29,6 @@ export default PtBr = {
             nome: "Nome completo",
             cpf: "Cpf",
             dataNascimento: "Data nascimento",
-            dataPicker: "Selecione sua data de nascimento",
             email: "E-mail",
             senha: "Senha"
         },
@@ -47,7 +46,10 @@ export default PtBr = {
             title: "Contatos",
             contato1: "Contato principal",
             contato2: "Contato secundario"
-        }
-        
-    }
+        } 
+    },
+    btExcluir: "  Excluir",
+    btEditar: "  Editar",
+    btcancelar: "  Cancelar",
+    btAdd: "Adicionar"
 }
