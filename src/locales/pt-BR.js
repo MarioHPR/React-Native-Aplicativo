@@ -19,6 +19,8 @@ export default PtBr = {
     botaoProximaEtapa: "Próxima etapa",
     botaoEtapaAnterior: "Etapa anterior",
     botaoEnviar: "Enviar cadastro",
+    botaoEditar: "Editar cadastro",
+    btCancelar: "Cancelar",
     error: {
         data: "Data invalida!",
         cpf: "Cpf invalido!",

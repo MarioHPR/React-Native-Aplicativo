@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
     flexDirection: "column-reverse",
     paddingRight: 60
   }
+  , btCancelar: {
+    paddingBottom: 60
+  }
 });
 
 export interface Props {
@@ -30,13 +33,16 @@ export interface Props {
   setDescricao: Function;
   atualizar: boolean;
   setAtualizar: Function;
+  visible: boolean;
+  setVisible: Function;
+  hideModal(): void; 
+  showModal(): void;
 }
 
-const ModalRestricao: React.FC<Props> = ({tipoModal, tipo, setTipo, descricao, setDescricao, atualizar, setAtualizar}) => {
-  const [visible, setVisible] = useState(false);
+const ModalRestricao: React.FC<Props> = ({showModal, visible, setVisible, hideModal, tipoModal, tipo, setTipo, descricao, setDescricao, atualizar, setAtualizar}) => {
+  
   const { user } = useAuth();
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
+  
   const containerStyle = {backgroundColor: 'white', padding: 20};
 
   const disable = useMemo(() => {
@@ -88,13 +94,14 @@ const ModalRestricao: React.FC<Props> = ({tipoModal, tipo, setTipo, descricao, s
                 quantidadeCaracteres={100}
             />
             <Button disabled={disable} onPress={() => adicionar()}>
-              {translate("botaoEnviar")}
+              { tipoModal ? translate("botaoEnviar") : translate("botaoEditar")}
+            </Button>
+            <Button style={styles.btCancelar} onPress={hideModal}>
+              { translate("btCancelar") }
             </Button>
         </Modal>
       </Portal>
-      <Button style={{marginTop: 30}} onPress={showModal}>
-          {translate('btAdd')}
-      </Button>
+      
     </Provider>
   )
 };

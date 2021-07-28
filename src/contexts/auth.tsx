@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../services/api';
 
 import { AuthContextData } from '../interfaces/ParametrosRequestTypes';
 import { ParametrosLogin, UsuarioRequest } from '../models/Usuario';
+import { criarUsuario, realizarLogin } from '../controllers/usuarioApi';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -12,8 +12,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [ loading, setLoading ] = useState(false);
     const [ novoUsuario, setNovoUsuario ] = useState(false);
 
-    async function signIn(parametros:ParametrosLogin) {   
-        const response = await api.post('/login', parametros);
+    async function signIn(parametros:ParametrosLogin) {  
+        console.log("sddssasada") 
+        const response = await realizarLogin(parametros);
         await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
         setUser(response.headers.authorization)
     }
@@ -25,7 +26,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function cadastrarUsuario(request:UsuarioRequest) {
-       await api.post('/api/usuario/salvar', JSON.stringify(request));
+        await criarUsuario(request);
        setNovoUsuario(false);
     }
 
@@ -38,7 +39,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         async function loadStoragedData() {
             const storageToken = await AsyncStorage.getItem('@GEAuth:token');
             if(storageToken) {
-                api.defaults.headers.Authorization = `${storageToken}`;
                 setUser(storageToken);
                 setLoading(false);
             }
