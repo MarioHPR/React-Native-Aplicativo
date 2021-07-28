@@ -1,9 +1,10 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AuthContextData } from '../interfaces/ParametrosRequestTypes';
 import { ParametrosLogin, UsuarioRequest } from '../models/Usuario';
 import { criarUsuario, realizarLogin } from '../controllers/usuarioApi';
+import { ToastAndroid } from 'react-native';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -12,11 +13,19 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [ loading, setLoading ] = useState(false);
     const [ novoUsuario, setNovoUsuario ] = useState(false);
 
+    const notify = useCallback((msg:string) => {
+        ToastAndroid.show(msg,150);
+    },[])
+
     async function signIn(parametros:ParametrosLogin) {  
-        console.log("sddssasada") 
-        const response = await realizarLogin(parametros);
-        await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
-        setUser(response.headers.authorization)
+        console.log("sddssasada")
+        try{
+            const response = await realizarLogin(parametros);
+            await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
+            setUser(response.headers.authorization)
+        } catch(error) {
+            notify("Verifique suas credenciais email ou senha incorreta!");
+        }
     }
 
     async function signOut() {
@@ -26,8 +35,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function cadastrarUsuario(request:UsuarioRequest) {
-        await criarUsuario(request);
-       setNovoUsuario(false);
+        try{
+            await criarUsuario(request);
+            setNovoUsuario(false);
+            notify("Cadastro realizado com sucesso!");
+        } catch(error) {
+            notify("Erro ao finalizar o cadastro, verifique os dados se estão corretos!");
+        }
     }
 
     async function navegarCadastroUsuario() {

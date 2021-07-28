@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
     const [ tipo, setTipo ] = useState<string>('');
     const [ descricao, setDescricao ] = useState<string>('');
 
-    const { user, signOut } = useAuth();
+    const { signOut } = useAuth();
     function handleSignOut() {
         signOut();
     }
