@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, ScrollView } from 'react-native';
+import React, { useCallback } from 'react';
+import { StyleSheet, Text, ToastAndroid } from 'react-native';
 import { Card, IconButton, Divider } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import {Menu, MenuTrigger, MenuOptions, MenuOption, MenuProvider} from 'react-native-popup-menu';
-import AlergiaRestricaoApi from '../../services/alergiaRestricaoApi';
-import { useAuth } from '../../contexts/auth';
+import { excluir } from '../../controllers/alergiaRestricaoApi';
 import { translate } from '../../locales';
 
 const styles = StyleSheet.create({
@@ -28,24 +27,30 @@ export interface Props {
     descricao: string;
     atualizar: boolean;
     setAtualizar: Function;
+    modal: (id:string, tipo:string, descricao:string)=>void;
 }
 
-const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atualizar}) => {
-    const api = new AlergiaRestricaoApi();
-    const { user } = useAuth();
+const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atualizar, modal}) => {
+
+    const notify = useCallback((msg:string) => {
+        ToastAndroid.show(msg,150);
+    },[])
 
     const editar = () => {
-        // api.editar(id, request, user);
+        modal(id, tipo, descricao);
     }
-    const excluir = () => {
-        api.excluir(id, user).then( resp => {
-            let auxAtualizar = !atualizar;
-            if(resp.status === 200)
-               setAtualizar(auxAtualizar)
-            else
-                setAtualizar(auxAtualizar)
-        });
-    }
+
+    const excluirRestricao = useCallback(async () => {
+        let auxAtualizar = !atualizar;
+        try{
+            await excluir(id);
+            notify("Exclusão realizada com sucesso!");
+        }catch(error){
+            notify("Erro ao tentar excluir anotação!");
+        } finally{
+            setAtualizar(auxAtualizar);
+        }
+    }, [id, atualizar, setAtualizar, notify, setAtualizar]);
     
     return (
         <Card>         
@@ -62,7 +67,7 @@ const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atual
                             if(value === 0)
                                 editar();
                             else if(value === 1)
-                                excluir();
+                                excluirRestricao();
                         }}>
                             <MenuTrigger  >
                                 <IconButton icon="dots-vertical" />

@@ -28,7 +28,7 @@ export default({
                 value={valor}
                 maxLength={quantidadeCaracteres || 100}
                 defaultValue={valor || ''}
-                onChangeText={(value:string) => setValor(value.trim())}
+                onChangeText={(value:string) => setValor(value)}
                 error={mensagemErro !== "" ? true : false}
             />
             <HelperText type="error" visible={hasErrors()}>

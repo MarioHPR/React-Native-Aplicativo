@@ -25,9 +25,11 @@ const Dashboard: React.FC = () => {
 
     const [ listaInfos, setListaInfos ] = useState<AlergiaRestricao[]>();
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
+    const [ flgAdd, setFlgAdd ] = useState<boolean>(false);
     const [visible, setVisible] = useState(false);
     const [ tipo, setTipo ] = useState<string>('');
     const [ descricao, setDescricao ] = useState<string>('');
+    const [ idEdit, setIdEdit ] = useState<string>();
 
     const { signOut } = useAuth();
     function handleSignOut() {
@@ -39,12 +41,27 @@ const Dashboard: React.FC = () => {
         setListaInfos(respo);
     }
 
-    const showModal = () => setVisible(true);
+    const showModal = (flgAdd:boolean) => {
+        setFlgAdd(flgAdd);
+        if(flgAdd === true){
+            setIdEdit(null);
+            setTipo('');
+            setDescricao('');
+        }
+        setVisible(true)
+    };
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
         listarRestricoes()
     }, [atualizar])
+
+    const modal = (idRegistro:string, tipoRegistro:string, descricaoRegistro:string) => {
+        setIdEdit(idRegistro);
+        setTipo(tipoRegistro);
+        setDescricao(descricaoRegistro);
+        showModal(false);
+    }
     
     return (
         <View style={styles.containerPai}>
@@ -52,15 +69,17 @@ const Dashboard: React.FC = () => {
                 <Appbar.Content title="Alergias e restrições" color='white' />
             </Appbar.Header>
             <Button title="Sign out" onPress={handleSignOut} />
-            <Button title={translate('btAdd')} onPress={showModal} />
+            <Button title={translate('btAdd')} onPress={() => showModal(true)} />
             <ScrollView>
             {
-                listaInfos && listaInfos.map( item => ( <RowRestricao key={item.id} id={item.id} tipo={item.tipo} descricao={item.descricao} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
+                listaInfos && listaInfos.map( item => ( <RowRestricao modal={modal} key={item.id} id={item.id} tipo={item.tipo} descricao={item.descricao} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
             }
             </ScrollView>
-            <ModalRestricao 
-                showModal={showModal} visible={visible} setVisible={setVisible} hideModal={hideModal}
-                tipoModal={true} tipo={tipo} setTipo={setTipo} 
+            <ModalRestricao
+                idEdit={idEdit}
+                flgAdd={flgAdd}
+                visible={visible} hideModal={hideModal}
+                tipo={tipo} setTipo={setTipo} 
                 descricao={descricao} setDescricao={setDescricao} 
                 atualizar={atualizar} setAtualizar={setAtualizar} />
         </View>

@@ -4,7 +4,6 @@ import {ApiService}  from '../services/apiService';
 
 export const listar = async () => {
   const response: AlergiaRestricao[] = (await ApiService.get('api/restricoes/')).data;
-  console.log("response", response)
   return  response;
 }
 
