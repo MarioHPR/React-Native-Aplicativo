@@ -18,11 +18,11 @@ export const AuthProvider: React.FC = ({ children }) => {
     },[])
 
     async function signIn(parametros:ParametrosLogin) {  
-        console.log("sddssasada")
         try{
             const response = await realizarLogin(parametros);
             await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
             setUser(response.headers.authorization)
+            console.log("Logou ")
         } catch(error) {
             notify("Verifique suas credenciais email ou senha incorreta!");
         }

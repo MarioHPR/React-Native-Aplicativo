@@ -1,5 +1,5 @@
 import { InstituicaoRequest, InstituicaoResponse } from '../interfaces/Instituicao';
-import { ApiService } from '../services/api';
+import { ApiService } from '../services/../services/apiService';
 
 export const criarInstituicao = async (instituicao: InstituicaoRequest) => {
   await ApiService.post(`api/instituicao/salvar/`, JSON.stringify(instituicao));

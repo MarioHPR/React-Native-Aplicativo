@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import {Menu, MenuTrigger, MenuOptions, MenuOption, MenuProvider} from 'react-native-popup-menu';
 import { excluir } from '../../controllers/alergiaRestricaoApi';
 import { translate } from '../../locales';
+import { TipoExameResponse } from '../../interfaces/TipoExame';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,42 +23,41 @@ const styles = StyleSheet.create({
 });
 
 export interface Props {
-    id: string;
-    tipo: string;
-    descricao: string;
+    tipoExame:TipoExameResponse;
     atualizar: boolean;
     setAtualizar: Function;
-    modal: (id:string, tipo:string, descricao:string)=>void;
+    modal: (registro:TipoExameResponse)=>void;
 }
 
-const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atualizar, modal}) => {
+const RowTipoExame: React.FC<Props> = ({tipoExame, setAtualizar, atualizar, modal}) => {
 
     const notify = useCallback((msg:string) => {
         ToastAndroid.show(msg,150);
     },[])
 
     const editar = () => {
-        modal(id, tipo, descricao);
+        modal(tipoExame);
     }
 
     const excluirRestricao = useCallback(async () => {
         let auxAtualizar = !atualizar;
         try{
-            await excluir(parseInt(id));
+            await excluir(tipoExame.id);
             notify("Exclusão realizada com sucesso!");
         }catch(error){
-            notify("Erro ao tentar excluir anotação!");
+            notify("Erro ao tentar excluir tipo de exame!");
         } finally{
             setAtualizar(auxAtualizar);
         }
-    }, [id, atualizar, setAtualizar, notify, setAtualizar]);
+    }, [tipoExame, atualizar, setAtualizar, notify, setAtualizar]);
     
     return (
+        
         <Card>         
             <Card.Title
                 style={styles.container}
-                title={tipo}
-                subtitle={descricao}
+                title={tipoExame.nomeExame}
+                subtitle={`Quantidade de registro(s) ${tipoExame.quantidade}`}
                 left={(props) => <Icon raised {...props} size={20} name='heartbeat' type='font-awesome' color='#f50'/>}
                 right={(props) => 
                     <MenuProvider >
@@ -88,8 +88,8 @@ const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atual
                 }
             />
             <Divider />                 
-        </Card>
+        </Card>   
     )
 };
 
-export default RowRestricao;
+export default RowTipoExame;

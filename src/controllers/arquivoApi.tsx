@@ -1,4 +1,4 @@
-import { ApiService } from '../services/api';
+import { ApiService } from '../services/../services/apiService';
 
 export const uploadArquivo = async (file: any) => {
   const data = new FormData();

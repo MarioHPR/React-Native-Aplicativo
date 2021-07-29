@@ -1,6 +1,6 @@
-import { ApiService } from '../services/api';
 import { DadosTipoExameResponse, TipoExameResponse } from '../interfaces/TipoExame';
 import { DadosExameRequest } from '../interfaces/Exame';
+import { ApiService }  from '../services/apiService';
 
 export const buscarTodosTipoExames = async () => {
   const response: TipoExameResponse[] = (await ApiService.get('api/tipoExame/buscar/todos')).data;

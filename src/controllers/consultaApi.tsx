@@ -1,5 +1,5 @@
 
-import { ApiService } from '../services/api';
+import { ApiService } from '../services/../services/apiService';
 import { ConsultaRequest, ConsultaResponse } from '../interfaces/Consulta';
 
 export const buscarConsultas = async () => {

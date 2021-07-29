@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import { Appbar } from 'react-native-paper';
 import {AlergiaRestricao} from '../../models/AlergiaRestricao';
@@ -36,10 +36,18 @@ const Dashboard: React.FC = () => {
         signOut();
     }
 
-    async function listarRestricoes() {
-        const respo: AlergiaRestricao[] = await listar();
-        setListaInfos(respo);
-    }
+    const notify = useCallback((msg:string) => {
+        ToastAndroid.show(msg,150);
+    },[]);
+
+    const listarRestricoes = useCallback(async () => {
+        try{
+            const respo: AlergiaRestricao[] = await listar();
+            setListaInfos(respo);
+        } catch(error){
+            notify("Erro ao listar suas restrições!");
+        }
+    }, [listar, setListaInfos, notify]);
 
     const showModal = (flgAdd:boolean) => {
         setFlgAdd(flgAdd);

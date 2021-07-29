@@ -12,12 +12,12 @@ export const addNovo = async ( request: AlergiaRestricaoRequest ) => {
   return response;
 }
 
-export const editar = async ( id: string,  request: AlergiaRestricaoRequest ) => {
+export const editar = async ( id: number,  request: AlergiaRestricaoRequest ) => {
   const response = ApiService.put( `api/restricoes/editar/${id}`, request );
   return response;
 }
     
-export const excluir = async ( id: string ) => {
+export const excluir = async ( id: number ) => {
   const response = ApiService.delete(`api/restricoes/deletar/${id}`);
   return response;
 } 

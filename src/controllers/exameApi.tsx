@@ -1,4 +1,4 @@
-import { ApiService } from '../services/api';
+import { ApiService } from '../services/../services/apiService';
 import { DadosExameEditRequest, DadosExameResponse } from '../interfaces/Exame';
 
 export const buscarTodosExames = async () => {

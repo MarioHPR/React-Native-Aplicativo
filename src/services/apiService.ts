@@ -1,8 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const baseURL = 'https:/back-geranciador-exames.herokuapp.com/';
-
 export const ApiService: AxiosInstance = axios.create({
   baseURL: 'https:/back-geranciador-exames.herokuapp.com/',
   headers: {
