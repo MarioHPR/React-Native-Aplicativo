@@ -60,5 +60,10 @@ export default PtBr = {
         tipo: "Tipo restrição",
         descricao: "Descrição",
         operacao: "Operação"
+    },
+    tipoExame: {
+        titleAdd: "Adicionar novo tipo de exame",
+        titleEdit: "Editar tipo de exame",
+        campo: "Nome do exame"
     }
 }

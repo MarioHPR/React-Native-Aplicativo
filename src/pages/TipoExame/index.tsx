@@ -24,7 +24,6 @@ const TipoExame: React.FC = () => {
 
     const { signOut } = useAuth();
     const [ flgAdd, setFlgAdd ] = useState<boolean>(false);
-    const [ idEdit, setIdEdit ] = useState<number>();
     const [ visible, setVisible ] = useState(false);
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
     const [ listaTipoExames, setListaTipoExames ] = useState<TipoExameResponse[]>();
@@ -36,9 +35,15 @@ const TipoExame: React.FC = () => {
 
     const showModal = (flgAdd:boolean) => {
         setFlgAdd(flgAdd);
+        if(flgAdd === true){
+            setTipoExame(INITIAL_RESPONSE);
+        }
         setVisible(true)
     };
-    const hideModal = () => setVisible(false);
+    const hideModal = () => {
+        setTipoExame(INITIAL_RESPONSE);
+        setVisible(false);
+    };
 
     const modal = (registro:TipoExameResponse) => {
         setTipoExame(registro);
@@ -69,14 +74,13 @@ const TipoExame: React.FC = () => {
                     <Appbar.Content title="TipoExame" subtitle={" "} color='white' />
                 </Appbar.Header>
                 <Button title="Sign out" onPress={handleSignOut} />
-                {/* <Button title={translate('btAdd')} onPress={() => showModal(true)} /> */}
+                <Button title={translate('btAdd')} onPress={() => showModal(true)} />
                 <ScrollView>
                 {
                     listaTipoExames && listaTipoExames.map( item => ( <RowTipoExame modal={modal} key={item.id} tipoExame={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
                 }
                 </ScrollView>
                 <ModalTipoExame
-                    idEdit={idEdit}
                     tipoExame={tipoExame}
                     flgAdd={flgAdd}
                     visible={visible} hideModal={hideModal}

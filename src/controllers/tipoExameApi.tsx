@@ -23,3 +23,7 @@ export const editarTipoExame = async (id: number, tipoExame: string) => {
 export const criarTipoExame = async (request: DadosExameRequest) => {
   await ApiService.post(`api/tipoExame/salvar-resumo/`, request);
 }
+
+export const gerarTipoExame = async (request: string) => {
+  await ApiService.post(`api/tipoExame/`, request);
+}

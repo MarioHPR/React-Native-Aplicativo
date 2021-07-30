@@ -4,7 +4,7 @@ import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
 import { translate } from '../../locales';
 import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
 import style from './styles';
-import { editarTipoExame } from '../../controllers/tipoExameApi';
+import { editarTipoExame, gerarTipoExame } from '../../controllers/tipoExameApi';
 import { TipoExameResponse } from '../../interfaces/TipoExame';
 
 const styles = StyleSheet.create({
@@ -50,6 +50,19 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
     return nomeExame === '';
   }, [nomeExame]);
 
+  const handlerAdd = useCallback(async () => {
+    let auxAtualizar = !atualizar;
+    try{
+      await gerarTipoExame(nomeExame);
+      notify("Tipo exame cadastrado com sucesso!");
+    } catch(error){
+      notify("Erro ao tentar adicionar novo tipo de exame!");
+    } finally{
+      setAtualizar(auxAtualizar);
+      hideModal();
+    }
+  }, [nomeExame, notify, atualizar, setAtualizar]);
+
   const handlerEditarTipoExame = useCallback(async () => {
     let auxAtualizar = !atualizar;
     try{
@@ -71,9 +84,9 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
     <Provider>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <Text> {flgAdd ? translate('alergiaRestricao.titleAdd') : translate('alergiaRestricao.titleEdit')} </Text>
+          <Text> {flgAdd ? translate('tipoExame.titleAdd') : translate('tipoExame.titleEdit')} </Text>
           <InputTextPadrao 
-                label={translate("alergiaRestricao.tipo")}
+                label={translate("tipoExame.campo")}
                 valor={nomeExame}
                 setValor={ setNomeExame }
                 mensagemErro={""}
@@ -81,7 +94,7 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
                 typeKeybord={'default'}
                 quantidadeCaracteres={100}
             />
-            <Button disabled={disable} onPress={() => handlerEditarTipoExame()}>
+            <Button disabled={disable} onPress={() => flgAdd ? handlerAdd() : handlerEditarTipoExame()}>
               { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
             </Button>
             <Button style={styles.btCancelar} onPress={hideModal}>
