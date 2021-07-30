@@ -8,6 +8,17 @@ export interface InstituicaoRequest {
     enderecoDTO: EnderecoRequest;
 }
 
+export interface RequestInstituicao {
+    id: number;
+    nome: string;
+    contatoUm: string;
+    contatoDois: string;
+    cidade: string;
+    cep: string;
+    bairro: string;
+    rua: string;
+    numero: number;
+}
 export interface InstituicaoResponse {
     id: number;
     nome: string;

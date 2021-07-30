@@ -6,6 +6,7 @@ import { INITIAL_INSTITUICAO_REQUEST, InstituicaoResponse } from '../../interfac
 import { buscarInstituicoes } from '../../controllers/instituicaoApi';
 import { translate } from '../../locales';
 import RowInstituicoes from '../../componentes/rowInstituicoes/rowInstituicoes';
+import ModalInstituicao from '../../componentes/ModalInstituicao/modalInstituicao';
 
 const styles = StyleSheet.create({
     containerPai: {
@@ -79,11 +80,11 @@ const Instituicoes: React.FC = () => {
                     listaInstituicoes && listaInstituicoes.map( item => ( <RowInstituicoes modal={modal} key={item.id} instituicao={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
                 }
                 </ScrollView>
-                {/* <ModalTipoExame
-                    tipoExame={tipoExame}
+                <ModalInstituicao
+                    instituicao={instituicao}
                     flgAdd={flgAdd}
                     visible={visible} hideModal={hideModal}
-                    atualizar={atualizar} setAtualizar={setAtualizar} /> */}
+                    atualizar={atualizar} setAtualizar={setAtualizar} />
             </View>
         </>
     )

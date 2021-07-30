@@ -1,7 +1,7 @@
-import { InstituicaoRequest, InstituicaoResponse } from '../interfaces/Instituicao';
+import { InstituicaoRequest, InstituicaoResponse, RequestInstituicao } from '../interfaces/Instituicao';
 import { ApiService } from '../services/../services/apiService';
 
-export const criarInstituicao = async (instituicao: InstituicaoRequest) => {
+export const criarInstituicao = async (instituicao: RequestInstituicao) => {
   await ApiService.post(`api/instituicao/salvar/`, JSON.stringify(instituicao));
 }
 
@@ -19,6 +19,6 @@ export const deletarInstituicao = async (id:number) => {
   await ApiService.delete(`api/instituicao/deletar/${id}`);
 }
 
-export const editarInstituicao = async (id:number, instituicao:InstituicaoRequest) => {
+export const editarInstituicao = async (id:number, instituicao:RequestInstituicao) => {
   await ApiService.put(`api/instituicao/editar/${id}`, instituicao);
 }

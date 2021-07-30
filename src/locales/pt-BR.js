@@ -65,5 +65,20 @@ export default PtBr = {
         titleAdd: "Adicionar novo tipo de exame",
         titleEdit: "Editar tipo de exame",
         campo: "Nome do exame"
+    },
+    instituicao: {
+        titleAdd: "Adicionar nova instituição",
+        titleEdit: "Editar instituição",
+        labels: "Localidade",
+            nome: "Nome instituição",
+            pais: "Pais",
+            paisDefault: "Brasil",
+            cidade: "Cidade",
+            cep: "Cep",
+            bairro: "Bairro",
+            rua: "Rua",
+            numero: "N°",
+            contato1: "Contato principal",
+            contato2: "Contato secundario"
     }
 }
