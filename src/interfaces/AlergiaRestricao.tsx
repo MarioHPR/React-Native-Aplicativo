@@ -4,7 +4,7 @@ export interface AlergiaRestricaoRequest {
 };
 
 export interface AlergiaRestricao {
-    id: string;
+    id: number;
     descricao: string;
     tipo: string;
 };

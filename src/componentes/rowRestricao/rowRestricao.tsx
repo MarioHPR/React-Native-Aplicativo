@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
 });
 
 export interface Props {
-    id: string;
+    id: number;
     tipo: string;
     descricao: string;
     atualizar: boolean;
     setAtualizar: Function;
-    modal: (id:string, tipo:string, descricao:string)=>void;
+    modal: (id:number, tipo:string, descricao:string)=>void;
 }
 
 const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atualizar, modal}) => {
@@ -43,7 +43,7 @@ const RowRestricao: React.FC<Props> = ({id, tipo, descricao, setAtualizar, atual
     const excluirRestricao = useCallback(async () => {
         let auxAtualizar = !atualizar;
         try{
-            await excluir(parseInt(id));
+            await excluir(id);
             notify("Exclusão realizada com sucesso!");
         }catch(error){
             notify("Erro ao tentar excluir anotação!");

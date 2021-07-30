@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 export interface Props {
   flgAdd:boolean;
-  idEdit?:string;
+  idEdit?:number;
   tipo: string;
   descricao: string;
   setTipo: Function;

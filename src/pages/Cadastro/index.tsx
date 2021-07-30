@@ -7,26 +7,14 @@ import StepUm from './steps/StepUm';
 import StepDois from './steps/StepDois';
 import StepTres from './steps/StepTres';
 import { UsuarioRequest } from '../../models/Usuario';
+import { INITIAL_REQUEST } from '../../interfaces/Usuario';
 
 const CadastroUsuario: React.FC = () => {
     const { cadastrarUsuario, navegarCadastroUsuario } = useAuth();
     const [ progresso, setProgresso ] = useState<number>(0);
     const [ etapa, setEtapa ] = useState<number>(1);
     const [ tela, setTela ] = useState<string>("");
-    const [ request ] = useState<UsuarioRequest>({
-        nome: "",
-        dataNascimento: "",
-        cpf: "",
-        email: "",
-        senha: "",
-        contatoUm: "",
-        contatoDois: "",
-        cidade: "",
-        cep: "",
-        bairro: "",
-        rua: "",
-        numero: 0
-    });
+    const [ request ] = useState<UsuarioRequest>(INITIAL_REQUEST);
     
     function cadastrar() {
         cadastrarUsuario(request);

@@ -22,3 +22,9 @@ export interface TipoExameRequest {
     id: number;
     nomeExame: string;
 }
+
+export const INITIAL_RESPONSE: TipoExameResponse = {
+    id: 0,
+    nomeExame: "",
+    quantidade: 0
+}

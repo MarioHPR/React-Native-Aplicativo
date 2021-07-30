@@ -3,7 +3,7 @@ import { StyleSheet, Text, ToastAndroid } from 'react-native';
 import { Card, IconButton, Divider } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import {Menu, MenuTrigger, MenuOptions, MenuOption, MenuProvider} from 'react-native-popup-menu';
-import { excluir } from '../../controllers/alergiaRestricaoApi';
+import { removerTipoExame } from '../../controllers/tipoExameApi';
 import { translate } from '../../locales';
 import { TipoExameResponse } from '../../interfaces/TipoExame';
 
@@ -39,10 +39,10 @@ const RowTipoExame: React.FC<Props> = ({tipoExame, setAtualizar, atualizar, moda
         modal(tipoExame);
     }
 
-    const excluirRestricao = useCallback(async () => {
+    const excluirTipoExame = useCallback(async () => {
         let auxAtualizar = !atualizar;
         try{
-            await excluir(tipoExame.id);
+            await removerTipoExame(tipoExame.id);
             notify("Exclusão realizada com sucesso!");
         }catch(error){
             notify("Erro ao tentar excluir tipo de exame!");
@@ -67,7 +67,7 @@ const RowTipoExame: React.FC<Props> = ({tipoExame, setAtualizar, atualizar, moda
                             if(value === 0)
                                 editar();
                             else if(value === 1)
-                                excluirRestricao();
+                                excluirTipoExame();
                         }}>
                             <MenuTrigger  >
                                 <IconButton icon="dots-vertical" />

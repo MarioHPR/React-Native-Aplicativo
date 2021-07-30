@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
     const [visible, setVisible] = useState(false);
     const [ tipo, setTipo ] = useState<string>('');
     const [ descricao, setDescricao ] = useState<string>('');
-    const [ idEdit, setIdEdit ] = useState<string>();
+    const [ idEdit, setIdEdit ] = useState<number>();
 
     const { signOut } = useAuth();
     function handleSignOut() {
@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
         listarRestricoes()
     }, [atualizar])
 
-    const modal = (idRegistro:string, tipoRegistro:string, descricaoRegistro:string) => {
+    const modal = (idRegistro:number, tipoRegistro:string, descricaoRegistro:string) => {
         setIdEdit(idRegistro);
         setTipo(tipoRegistro);
         setDescricao(descricaoRegistro);
