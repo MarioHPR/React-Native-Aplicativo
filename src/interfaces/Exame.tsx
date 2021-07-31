@@ -1,4 +1,4 @@
-import { InstituicaoRequest } from "./Instituicao";
+import { INITIAL_INSTITUICAO_REQUEST, InstituicaoRequest } from "./Instituicao";
 import { ItemValorExameRequest } from "./ItemValorExame";
 
 export interface DadosExameRequest {
@@ -39,4 +39,14 @@ export interface DadosExameResponse {
     dadosInstituicao: InstituicaoRequest;
     parametros: ItemValorExameRequest[];
     flgDeleted: boolean;
+}
+
+export const INITIAL_EXAME_RESPONSE: DadosExameResponse = {
+    id: 0,
+    nomeExame: "",
+    dataExame: "",
+    idArquivo: 0,
+    dadosInstituicao: INITIAL_INSTITUICAO_REQUEST,
+    parametros: [],
+    flgDeleted: false
 }

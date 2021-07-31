@@ -1,4 +1,4 @@
-import { InstituicaoRequest } from "./Instituicao";
+import { INITIAL_INSTITUICAO_REQUEST, InstituicaoRequest } from "./Instituicao";
 
 export interface ConsultaRequest {
     nomeMedico: string;
@@ -17,4 +17,14 @@ export interface ConsultaResponse {
     prescricao: string;
     idArquivo: number;
     dadosInstituicao: InstituicaoRequest;
+}
+
+export const INITIAL_CONSULTA_RESPONSE: ConsultaResponse = {
+    id: 0,
+    nomeMedico: "",
+    dataConsulta: "",
+    diagnostico: "",
+    prescricao: "",
+    idArquivo: 0,
+    dadosInstituicao: INITIAL_INSTITUICAO_REQUEST
 }
