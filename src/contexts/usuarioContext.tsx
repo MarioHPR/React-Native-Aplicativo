@@ -10,8 +10,7 @@ const AuthContext = createContext<AuthContextUsuario>({} as AuthContextUsuario);
 export const AuthProvider: React.FC = ({ children }) => {
     const [ novoUsuario, setNovoUsuario ] = useState();
 
-    async function step1(parametros:Step1) {   
-        console.log(parametros);
+    async function step1(parametros:Step1) {
     }
 
     return (

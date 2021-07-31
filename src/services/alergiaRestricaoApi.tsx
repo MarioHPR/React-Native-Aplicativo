@@ -35,7 +35,6 @@ export default class AlergiaRestricaoApi {
     }
     
     excluir( id: string, token: string ) {
-        console.log("excluir api id ", id)
         const alergiaRestricaoApi = this.headerRequest(token);
         const response = alergiaRestricaoApi.delete(`api/restricoes/deletar/${id}`);
         return response;

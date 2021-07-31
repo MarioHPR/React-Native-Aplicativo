@@ -23,7 +23,6 @@ export const AuthProvider: React.FC = ({ children }) => {
             const response = await realizarLogin(parametros);
             await AsyncStorage.setItem('@GEAuth:token', response.headers.authorization);
             setUser(response.headers.authorization)
-            console.log("Logou ")
         } catch(error) {
             notify("Verifique suas credenciais email ou senha incorreta!");
         }

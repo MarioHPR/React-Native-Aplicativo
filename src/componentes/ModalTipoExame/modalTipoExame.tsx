@@ -45,8 +45,6 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
   },[])
 
   const disable = useMemo(() => {
-    console.log("TIPO EXAME ", tipoExame)
-    console.log("TIPO EXAME ", tipoExame.nomeExame)
     return nomeExame === '';
   }, [nomeExame]);
 

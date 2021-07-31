@@ -10,6 +10,7 @@ import { INITIAL_INSTITUICAO_REQUEST, InstituicaoResponse } from '../../interfac
 import { buscarInstituicoes } from '../../controllers/instituicaoApi';
 import Instituicoes from '../Instituicoes';
 import ModalInstituicao from '../../componentes/ModalInstituicao/modalInstituicao';
+import ModalConsulta from '../../componentes/ModalConsulta/modalConsulta';
 
 const styles = StyleSheet.create({
     containerPai: {
@@ -42,6 +43,7 @@ const Consulta: React.FC = () => {
     const { signOut, atualizarTelas } = useAuth();
     const [ flgAdd, setFlgAdd ] = useState<boolean>(false);
     const [ visible, setVisible ] = useState(false);
+    const [ visibleInstituicao, setVisibleInstituicao ] = useState(false);
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
     const [ listaConsultas, setListaConsultas ] = useState<ConsultaResponse[]>();
     const [ consulta, setConsulta ] = useState<ConsultaResponse>(INITIAL_CONSULTA_RESPONSE);
@@ -52,12 +54,9 @@ const Consulta: React.FC = () => {
         ToastAndroid.show(msg,150);
     },[]);
 
-    const showModalInstituicao = (flgAdd:boolean) => {
-        setFlgAdd(flgAdd);
-        if(flgAdd === true){
-            setConsulta(INITIAL_CONSULTA_RESPONSE);
-        }
-        setVisible(true)
+    const showModalInstituicao = (flg:boolean) => {
+        setInstituicao(INITIAL_INSTITUICAO_REQUEST);
+        setVisibleInstituicao(flg)
     };
 
     const showModal = (flgAdd:boolean) => {
@@ -73,9 +72,16 @@ const Consulta: React.FC = () => {
         setVisible(false);
     };
 
+    const hideInstituicao = () => {
+        setInstituicao(INITIAL_INSTITUICAO_REQUEST);
+        setVisibleInstituicao(false);
+    };
+
     const modal = (registro:ConsultaResponse) => {
         setConsulta(registro);
+        setInstituicao(INITIAL_INSTITUICAO_REQUEST);
         showModal(false);
+        showModalInstituicao(false);
     }
 
     function handleSignOut() {
@@ -100,6 +106,7 @@ const Consulta: React.FC = () => {
         }
         
     }, [buscarInstituicoes, setListaInstituicoes, notify]);
+
     const habilitarAdd = useMemo(() => {
         return listaInstituicoes === [];
     }, [listaInstituicoes]);
@@ -140,17 +147,16 @@ const Consulta: React.FC = () => {
                 listaConsultas && listaConsultas.map( item => ( <RowConsulta modal={modal} key={item.id} consulta={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
             }
             </ScrollView>
-            {/* <ModalRestricao
-                idEdit={idEdit}
+            {listaInstituicoes && <ModalConsulta
+                consulta={consulta}
+                listaInstituicoes={listaInstituicoes}
                 flgAdd={flgAdd}
                 visible={visible} hideModal={hideModal}
-                tipo={tipo} setTipo={setTipo} 
-                descricao={descricao} setDescricao={setDescricao} 
-                atualizar={atualizar} setAtualizar={setAtualizar} /> */}
+                atualizar={atualizar} setAtualizar={setAtualizar} />}
             <ModalInstituicao
                 instituicao={instituicao}
                 flgAdd={flgAdd}
-                visible={visible} hideModal={hideModal}
+                visible={visibleInstituicao} hideModal={hideInstituicao}
                 atualizar={atualizar} setAtualizar={setAtualizar} />
         </View>
     )

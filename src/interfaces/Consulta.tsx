@@ -6,7 +6,18 @@ export interface ConsultaRequest {
     diagnostico: string;
     prescricao: string;
     idArquivo: number;
-    dadosInstituicao: InstituicaoRequest;
+
+    bairro: string;
+    cep: string;
+    cidade: string;
+    contatoDoisInstituicao: string;
+    contatoUmInstituicao: string;
+    idContatoInstituicao: number;
+    idEnderecoInstituicao: number;
+    idInstituicao: number;
+    nomeInstituicao: string;
+    numero: number | string;
+    rua: string;
 }
 
 export interface ConsultaResponse {
@@ -27,4 +38,23 @@ export const INITIAL_CONSULTA_RESPONSE: ConsultaResponse = {
     prescricao: "",
     idArquivo: 0,
     dadosInstituicao: INITIAL_INSTITUICAO_REQUEST
+}
+
+export const INITIAL_CONSULTA_REQUEST: ConsultaRequest = {
+    nomeMedico: "",
+    dataConsulta: "",
+    diagnostico: "",
+    prescricao: "",
+    idArquivo: 0,
+    bairro: "",
+    cep: "",
+    cidade: "",
+    contatoDoisInstituicao: "",
+    contatoUmInstituicao: "",
+    idContatoInstituicao: 0,
+    idEnderecoInstituicao: 0,
+    idInstituicao: 0,
+    nomeInstituicao: "",
+    numero: 0,
+    rua: ""
 }

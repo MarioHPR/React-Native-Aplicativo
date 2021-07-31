@@ -85,6 +85,16 @@ export default PtBr = {
     },
     consulta: {
         btAddConsulta: "Add Consulta",
-        btInstituicao: "Add Instituição"
+        btInstituicao: "Add Instituição",
+        titleAdd: "Adicionar nova consulta",
+        titleEdit: "Editar consulta",
+        labels: {
+            data: "Data consulta",
+            nome: "Nome médico",
+            diagnostico: "Diagnóstico",
+            prescricao: "Prescrição",
+            instituicao: "Instituição",
+            select: "Selecione uma instituição"
+        }
     }
 }
