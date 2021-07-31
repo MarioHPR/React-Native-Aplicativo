@@ -8,6 +8,7 @@ import { criarInstituicao, editarInstituicao } from '../../controllers/instituic
 import { InstituicaoRequest, InstituicaoResponse, RequestInstituicao } from '../../interfaces/Instituicao';
 import InputTextMascaraCep from '../InputTextPadrao/InputTextMascaraCep';
 import InputTextMascaraTelefone from '../InputTextPadrao/InputTextMascaraTelefone';
+import { useAuth } from '../../contexts/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,7 +38,7 @@ export interface Props {
 }
 
 const ModalInstituicao: React.FC<Props> = ({flgAdd, instituicao, atualizar, setAtualizar, visible, hideModal}) => {
-  
+  const { setAtualizarTelas } = useAuth();
   const containerStyle = {backgroundColor: 'white', padding: 20};
   const [bairro, setBairro ] = useState<string>(instituicao.enderecoDTO.bairro);
   const [cep, setCep ] = useState<string>(instituicao.enderecoDTO.cep);
@@ -74,6 +75,7 @@ const ModalInstituicao: React.FC<Props> = ({flgAdd, instituicao, atualizar, setA
       notify("Erro ao tentar editar instituição!");
     } finally{
       setAtualizar(auxAtualizar);
+      setAtualizarTelas(auxAtualizar);
       hideModal();
     }
   }, [instituicao, bairro, cep, cidade, notify, contatoDois, contatoUm, nome, numero, rua]);
@@ -87,6 +89,7 @@ const ModalInstituicao: React.FC<Props> = ({flgAdd, instituicao, atualizar, setA
       notify("Erro ao tentar adicionar nova anotação!");
     } finally{
       setAtualizar(auxAtualizar);
+      setAtualizarTelas(auxAtualizar);
       hideModal();
     }
   }, [instituicao, bairro, cep, cidade, notify, contatoDois, contatoUm, nome, numero, rua]);

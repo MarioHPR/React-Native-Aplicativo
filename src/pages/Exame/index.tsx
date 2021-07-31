@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 const Exame: React.FC = () => {
 
-    const { signOut } = useAuth();
+    const { signOut, atualizarTelas } = useAuth();
     const [ flgAdd, setFlgAdd ] = useState<boolean>(false);
     const [ visible, setVisible ] = useState(false);
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const Exame: React.FC = () => {
     
     useEffect(() => {
         listarExamesUsuario();
-    }, [atualizar, exame])
+    }, [atualizar, exame, atualizarTelas])
     return (
         <View style={styles.containerPai}>
             <Appbar.Header >

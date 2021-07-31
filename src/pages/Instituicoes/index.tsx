@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 const Instituicoes: React.FC = () => {
 
-    const { signOut } = useAuth();
+    const { signOut, atualizarTelas } = useAuth();
     const [ flgAdd, setFlgAdd ] = useState<boolean>(false);
     const [ visible, setVisible ] = useState(false);
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
@@ -65,7 +65,7 @@ const Instituicoes: React.FC = () => {
     
     useEffect(() => {
         listarInstituicoes();
-    }, [atualizar, instituicao])
+    }, [atualizar, instituicao, atualizarTelas])
 
     return (
         <View style={styles.containerPai}>

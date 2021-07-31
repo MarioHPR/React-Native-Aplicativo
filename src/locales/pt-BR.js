@@ -82,5 +82,9 @@ export default PtBr = {
             contato1: "Contato principal",
             contato2: "Contato secundario"
         }
+    },
+    consulta: {
+        btAddConsulta: "Add Consulta",
+        btInstituicao: "Add Instituição"
     }
 }

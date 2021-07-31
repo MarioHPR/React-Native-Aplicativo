@@ -4,7 +4,8 @@ import { ParametrosLogin, Step1, UsuarioRequest } from "../models/Usuario";
 
 export interface AuthContextData {
     signed: boolean;
-    user: string;
+    atualizarTelas: number;
+    setAtualizarTelas: Function;
     loading: boolean;  
     signIn(userLogin: ParametrosLogin): Promise<void>;
     signOut(): void;

@@ -12,6 +12,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [ user, setUser ] = useState<string>("");
     const [ loading, setLoading ] = useState(false);
     const [ novoUsuario, setNovoUsuario ] = useState(false);
+    const [ atualizarTelas, setAtualizarTelas ] = useState<number>(0);
 
     const notify = useCallback((msg:string) => {
         ToastAndroid.show(msg,150);
@@ -62,7 +63,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{signed: !!user, user, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario, cadastrarUsuario}}>
+        <AuthContext.Provider value={{signed: !!user, atualizarTelas, setAtualizarTelas, loading, signIn, signOut, novoUsuario, navegarCadastroUsuario, cadastrarUsuario}}>
             {children}
         </AuthContext.Provider>
     );
