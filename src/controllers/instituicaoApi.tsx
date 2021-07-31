@@ -19,6 +19,6 @@ export const deletarInstituicao = async (id:number) => {
   await ApiService.delete(`api/instituicao/deletar/${id}`);
 }
 
-export const editarInstituicao = async (id:number, instituicao:RequestInstituicao) => {
+export const editarInstituicao = async (id:number, instituicao:InstituicaoRequest) => {
   await ApiService.put(`api/instituicao/editar/${id}`, instituicao);
 }

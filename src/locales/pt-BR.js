@@ -69,7 +69,8 @@ export default PtBr = {
     instituicao: {
         titleAdd: "Adicionar nova instituição",
         titleEdit: "Editar instituição",
-        labels: "Localidade",
+        labels: {
+            titleLocal: "Localidade",
             nome: "Nome instituição",
             pais: "Pais",
             paisDefault: "Brasil",
@@ -80,5 +81,6 @@ export default PtBr = {
             numero: "N°",
             contato1: "Contato principal",
             contato2: "Contato secundario"
+        }
     }
 }

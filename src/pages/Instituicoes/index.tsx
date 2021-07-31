@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Button, StyleSheet, Text, ToastAndroid, ScrollView } from 'react-native';
+import { View, Button, StyleSheet, ToastAndroid, ScrollView } from 'react-native';
 import { useAuth } from '../../contexts/auth';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Text } from 'react-native-paper';
 import { INITIAL_INSTITUICAO_REQUEST, InstituicaoResponse } from '../../interfaces/Instituicao';
 import { buscarInstituicoes } from '../../controllers/instituicaoApi';
 import { translate } from '../../locales';
@@ -68,25 +68,26 @@ const Instituicoes: React.FC = () => {
     }, [atualizar, instituicao])
 
     return (
-        <>
-            <View style={styles.containerPai}>
-                <Appbar.Header >
-                    <Appbar.Content title="Instituições" subtitle={" "} color='white' />
-                </Appbar.Header>
-                <Button title="Sign out" onPress={handleSignOut} />
-                <Button title={translate('btAdd')} onPress={() => showModal(true)} />
-                <ScrollView>
-                {
-                    listaInstituicoes && listaInstituicoes.map( item => ( <RowInstituicoes modal={modal} key={item.id} instituicao={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
-                }
-                </ScrollView>
-                <ModalInstituicao
-                    instituicao={instituicao}
-                    flgAdd={flgAdd}
-                    visible={visible} hideModal={hideModal}
-                    atualizar={atualizar} setAtualizar={setAtualizar} />
-            </View>
-        </>
+        <View style={styles.containerPai}>
+            <Appbar.Header >
+                <Appbar.Content title="Instituições" subtitle={" "} color='white' />
+            </Appbar.Header>
+            <>
+                <Button title="Sign out" onPress={handleSignOut} disabled={visible}/>
+                <Button title={translate('btAdd')} onPress={() => showModal(true)} disabled={visible} />
+            </>
+            
+            <ScrollView>
+            {
+                listaInstituicoes && listaInstituicoes.map( item => ( <RowInstituicoes modal={modal} key={item.id} instituicao={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
+            }
+            </ScrollView>
+            <ModalInstituicao
+                instituicao={instituicao}
+                flgAdd={flgAdd}
+                visible={visible} hideModal={hideModal}
+                atualizar={atualizar} setAtualizar={setAtualizar} />
+        </View>
     )
 };
 

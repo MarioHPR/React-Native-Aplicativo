@@ -4,7 +4,7 @@ export interface EnderecoRequest {
     cep: string;
     bairro: string;
     rua: string;
-    numero: number;
+    numero: number | string;
     flgEnderecoDoUsuario: false;
 }
 
@@ -14,6 +14,6 @@ export const INITIAL_ENDERECO_REQUEST: EnderecoRequest = {
     cep: "",
     bairro: "",
     rua: "",
-    numero: 0,
+    numero: "",
     flgEnderecoDoUsuario: false
 }

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 10,
     },
     marginTop: {
-        paddingTop: 20
+        paddingTop: 80
     },
     h3: {
         textAlign: 'center',
