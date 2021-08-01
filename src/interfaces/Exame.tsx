@@ -11,7 +11,7 @@ export interface DadosExameRequest {
     idArquivo: number;
     idInstituicao: number;
     nomeInstituicao: string;
-    numero: number;
+    numero: number | string;
     parametros: ItemValorExameRequest[];
     rua: string;
     nomeExame: string;
@@ -26,7 +26,7 @@ export interface DadosExameEditRequest {
     idArquivo: number;
     idInstituicao: number;
     nomeInstituicao: string;
-    numero: number;
+    numero: number | string;
     parametros: ItemValorExameRequest[];
     rua: string;
     nomeExame: string;
@@ -49,4 +49,20 @@ export const INITIAL_EXAME_RESPONSE: DadosExameResponse = {
     dadosInstituicao: INITIAL_INSTITUICAO_REQUEST,
     parametros: [],
     flgDeleted: false
+}
+
+export const INITIAL_EXAME_REQUEST: DadosExameRequest = {
+    bairro: "",
+    cep: "",
+    cidade: "",
+    contatoDoisInstituicao: "",
+    contatoUmInstituicao: "",
+    dataExame: "",
+    idArquivo: 0,
+    idInstituicao: 0,
+    nomeInstituicao: "",
+    numero: 0,
+    parametros: [],
+    rua: "",
+    nomeExame: ""
 }

@@ -12,6 +12,7 @@ import ModalInstituicao from '../../componentes/ModalInstituicao/modalInstituica
 import ModalTipoExame from '../../componentes/ModalTipoExame/modalTipoExame';
 import { INITIAL_RESPONSE, TipoExameResponse } from '../../interfaces/TipoExame';
 import { buscarTodosTipoExames } from '../../controllers/tipoExameApi';
+import ModalExame from '../../componentes/ModalExame/modalExame';
 
 const styles = StyleSheet.create({
     containerPai: {
@@ -47,6 +48,7 @@ const Exame: React.FC = () => {
     const [ atualizar, setAtualizar ] = useState<boolean>(false);
     const [ listaExames, setListaExames ] = useState<DadosExameResponse[]>();
     const [ exame, setExame ] = useState<DadosExameResponse>(INITIAL_EXAME_RESPONSE);
+    const [ visibleExame, setVisibleExame ] = useState(false);
     const [ visibleInstituicao, setVisibleInstituicao ] = useState(false);
     const [ visibleTipoExame, setVisibleTipoExame ] = useState(false);
     const [ listaInstituicoes, setListaInstituicoes ] = useState<InstituicaoResponse[]>([]);
@@ -170,13 +172,13 @@ const Exame: React.FC = () => {
                 listaExames && listaExames.map( item => ( <RowExame modal={modal} key={item.id} exame={item} atualizar={atualizar} setAtualizar={setAtualizar}/> ))
             }
             </ScrollView>
-            {/* <ModalRestricao
-                idEdit={idEdit}
+            <ModalExame
+                exame={exame}
+                listaInstituicoes={listaInstituicoes}
+                listaTipoExame={listaTipoExames}
                 flgAdd={flgAdd}
                 visible={visible} hideModal={hideModal}
-                tipo={tipo} setTipo={setTipo} 
-                descricao={descricao} setDescricao={setDescricao} 
-                atualizar={atualizar} setAtualizar={setAtualizar} /> */}
+                atualizar={atualizar} setAtualizar={setAtualizar} />
             <ModalInstituicao
                 instituicao={instituicao}
                 flgAdd={flgAdd}

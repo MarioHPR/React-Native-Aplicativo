@@ -27,6 +27,7 @@ export interface ConsultaResponse {
     diagnostico: string;
     prescricao: string;
     idArquivo: number;
+    idInstituicao?: number;
     dadosInstituicao: InstituicaoRequest;
 }
 
