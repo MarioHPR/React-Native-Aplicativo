@@ -6,6 +6,7 @@ import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
 import style from './styles';
 import { editarTipoExame, gerarTipoExame } from '../../controllers/tipoExameApi';
 import { TipoExameResponse } from '../../interfaces/TipoExame';
+import { useAuth } from '../../contexts/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +39,7 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
   
   const containerStyle = {backgroundColor: 'white', padding: 20};
   
+  const { setAtualizarTelas } = useAuth();
   const [nomeExame, setNomeExame ] = useState<string>(tipoExame.nomeExame);
 
   const notify = useCallback((msg:string) => {
@@ -57,6 +59,7 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
       notify("Erro ao tentar adicionar novo tipo de exame!");
     } finally{
       setAtualizar(auxAtualizar);
+      setAtualizarTelas(auxAtualizar);
       hideModal();
     }
   }, [nomeExame, notify, atualizar, setAtualizar]);
@@ -70,6 +73,7 @@ const ModalTipoExame: React.FC<Props> = ({flgAdd, tipoExame, atualizar, setAtual
       notify("Erro ao tentar editar tipo exame!");
     } finally{
       setAtualizar(auxAtualizar);
+      setAtualizarTelas(auxAtualizar);
       hideModal();
     }
   }, [tipoExame, nomeExame, notify, atualizar, setAtualizar]);

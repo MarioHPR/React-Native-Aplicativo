@@ -96,5 +96,21 @@ export default PtBr = {
             instituicao: "Instituição",
             select: "Selecione uma instituição"
         }
+    },
+    exame: {
+        btAddExame: "Exame",
+        btInstituicao: "Instituição",
+        btTipo: "Tipo exame",
+        titleAdd: "Adicionar novo exame",
+        titleEdit: "Editar exame",
+        labels: {
+            data: "Data exame",
+            parametros: "Parametros",
+            campo: "Campo",
+            valor: "Valor",
+            instituicao: "Instituição",
+            select: "Selecione uma instituição",
+            selectTipo: "Selecione um tipo"
+        }
     }
 }

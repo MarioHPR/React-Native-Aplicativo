@@ -8,7 +8,6 @@ import RowConsulta from '../../componentes/rowConsulta/rowConsulta';
 import { translate } from '../../locales';
 import { INITIAL_INSTITUICAO_REQUEST, InstituicaoResponse } from '../../interfaces/Instituicao';
 import { buscarInstituicoes } from '../../controllers/instituicaoApi';
-import Instituicoes from '../Instituicoes';
 import ModalInstituicao from '../../componentes/ModalInstituicao/modalInstituicao';
 import ModalConsulta from '../../componentes/ModalConsulta/modalConsulta';
 
