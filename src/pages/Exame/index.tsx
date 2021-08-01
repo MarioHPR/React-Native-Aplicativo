@@ -10,8 +10,8 @@ import RowExame from '../../componentes/rowExame/rowExame';
 import { INITIAL_INSTITUICAO_REQUEST, InstituicaoResponse } from '../../interfaces/Instituicao';
 import ModalInstituicao from '../../componentes/ModalInstituicao/modalInstituicao';
 import ModalTipoExame from '../../componentes/ModalTipoExame/modalTipoExame';
-import { INITIAL_RESPONSE, TipoExameResponse } from '../../interfaces/TipoExame';
-import { buscarTodosTipoExames } from '../../controllers/tipoExameApi';
+import { DadosTipoExameResponse, INITIAL_RESPONSE, TipoExameResponse } from '../../interfaces/TipoExame';
+import { buscarTipoExame } from '../../controllers/tipoExameApi';
 import ModalExame from '../../componentes/ModalExame/modalExame';
 
 const styles = StyleSheet.create({
@@ -54,7 +54,7 @@ const Exame: React.FC = () => {
     const [ listaInstituicoes, setListaInstituicoes ] = useState<InstituicaoResponse[]>([]);
     const [ instituicao, setInstituicao ] = useState<InstituicaoResponse>(INITIAL_INSTITUICAO_REQUEST);
     const [ tipoExame, setTipoExame ] = useState<TipoExameResponse>(INITIAL_RESPONSE);
-    const [ listaTipoExames, setListaTipoExames ] = useState<TipoExameResponse[]>();
+    const [ listaTipoExames, setListaTipoExames ] = useState<DadosTipoExameResponse[]>();
 
     const notify = useCallback((msg:string) => {
         ToastAndroid.show(msg,150);
@@ -126,12 +126,12 @@ const Exame: React.FC = () => {
 
     const listarTipoExames = useCallback(async () => {
         try{
-            const respo: TipoExameResponse[] = await buscarTodosTipoExames();
+            const respo: DadosTipoExameResponse[] = await buscarTipoExame();
             setListaTipoExames(respo);
         } catch(error) {
             notify("Erro ao listar os tipo de exame cadastrado!");
         }
-    }, [buscarTodosTipoExames, setListaTipoExames, notify]);
+    }, [buscarTipoExame, setListaTipoExames, notify]);
     
     useEffect(() => {
         listarExamesUsuario();

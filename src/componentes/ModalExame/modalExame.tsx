@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Picker, ScrollView, StyleSheet, ToastAndroid, View } from 'react-native';
-import { Modal, Portal, Text, Button, Provider, List } from 'react-native-paper';
+import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
 import { translate } from '../../locales';
-import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
 import style from './styles';
 import { InstituicaoResponse } from '../../interfaces/Instituicao';
 import { useAuth } from '../../contexts/auth';
@@ -10,11 +9,10 @@ import { criarTipoExame } from '../../controllers/tipoExameApi';
 import { editarExame } from '../../controllers/exameApi';
 import InputTextMascaraData from '../InputTextPadrao/InputTextMascaraData';
 import { dataValida, localeDateToISO } from '../../utils/Validador';
-
-import RNPickerSelect from 'react-native-picker-select';
 import { DadosExameEditRequest, DadosExameRequest, DadosExameResponse, INITIAL_EXAME_REQUEST } from '../../interfaces/Exame';
-import { TipoExameResponse } from '../../interfaces/TipoExame';
+import { DadosTipoExameResponse, ItemCampoExame, TipoExameResponse } from '../../interfaces/TipoExame';
 import { ItemValorExameRequest } from '../../interfaces/ItemValorExame';
+import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +49,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth:1,
     borderRadius:4
+  }, title: {
+    flex: 1,
+    textAlign: 'center'
+  }, celula: {
+    width: 150
   }
 });
 
@@ -58,7 +61,7 @@ export interface Props {
   flgAdd: boolean;
   exame: DadosExameResponse;
   listaInstituicoes: InstituicaoResponse[],
-  listaTipoExame: TipoExameResponse[],
+  listaTipoExame: DadosTipoExameResponse[],
   atualizar: boolean;
   setAtualizar: Function;
   visible: boolean;
@@ -71,6 +74,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
 
   const [dataExame, setDataExame ] = useState<string>(exame.dataExame);
   const [nomeExame, setNomeExame ] = useState<string>(exame.nomeExame);
+  const [ parametroTipoExame, setParametrosTipoExame ] = useState<ItemCampoExame[]>();
   const [parametros, setParametros ] = useState<ItemValorExameRequest[]>(exame.parametros);
   const [dadosInstituicao, setDadosInstituicao ] = useState<InstituicaoResponse>(exame.dadosInstituicao);
   const [ mensagemDataConsulta, setMensagemDataConsulta ] = useState<string>("");
@@ -183,8 +187,9 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
                 selectedValue={selectedValueTipoExame}
                 style={{ height: 50, width: '100%' }}
                 onValueChange={(itemValue, itemIndex) => {
-                  const aux:TipoExameResponse = listaTipoExame.find(item => item.nomeExame === itemValue );
+                  const aux:DadosTipoExameResponse = listaTipoExame.find(item => item.nomeExame === itemValue );
                   setNomeExame(aux.nomeExame ? aux.nomeExame : "");
+                  setParametrosTipoExame(aux.itensCampo);
                   return setSelectedValueTipoExame(itemValue)
                 }}
               >
@@ -209,6 +214,41 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
                 }
               </Picker>
             </View>
+              <Text style={styles.title}>Parametros do exame</Text>
+            { !flgAdd &&
+             (exame.parametros !== [] && exame !== undefined) ? exame.parametros.map( campo => {
+                return (
+                  <View key={campo.id}
+                    style={{
+                        flexDirection: "row",
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: 10
+                    }}
+                  >
+                    <InputTextPadrao 
+                      label={translate('exame.labels.campo')}
+                      valor={campo.campo}
+                      setValor={ () => {} }
+                      mensagemErro={""}
+                      style={styles.celula}
+                      typeKeybord={'default'}
+                      quantidadeCaracteres={100}
+                    />
+
+                    <InputTextPadrao 
+                      label={translate('exame.labels.valor')}
+                      valor={campo.valor}
+                      setValor={ () => {} }
+                      mensagemErro={""}
+                      style={styles.celula}
+                      typeKeybord={'default'}
+                      quantidadeCaracteres={100}
+                    />
+                  </View>
+                )
+              }) : <Text>Não a parametros</Text>
+            }
 
             <Button disabled={disable} onPress={() => flgAdd ? addExame() : editExame()}>
               { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
