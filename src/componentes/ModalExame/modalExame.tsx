@@ -131,12 +131,6 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
       request.nomeExame = nomeExame;
       request.dataExame = localeDateToISO(dataExame);
 
-      console.log("fafsdsadasdasdasdasd")
-      console.log("fafsdsadasdasdasdasd")
-      console.log(request)
-      console.log("fafsdsadasdasdasdasd")
-      console.log("fafsdsadasdasdasdasd")
-
       await criarTipoExame(request);
       notify("Exame cadastrado com sucesso!");
     } catch(error){
@@ -174,7 +168,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
-            <Text style={style.marginTop}> {flgAdd ? translate('instituicao.titleAdd') : translate('instituicao.titleEdit')} </Text>
+            <Text style={style.marginTop}> {flgAdd ? translate('exame.titleAdd') : translate('exame.titleEdit')} </Text>
 
             <InputTextMascaraData
               label={translate('exame.labels.data')}
@@ -199,16 +193,6 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
                 }
               </Picker>
             </View>
-
-            {/* <InputTextPadrao 
-              label={translate('exame.labels.nome')}
-              valor={nomeMedico}
-              setValor={ setNomeMedico }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            /> */}
 
             <View style={styles.selectLocalidade}>
               <Picker
