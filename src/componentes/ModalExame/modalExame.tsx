@@ -40,7 +40,17 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     alignItems: "center",
     borderColor: 'black',
-    borderWidth:1
+    borderWidth:1,
+    borderRadius:4
+  },
+  selectLocalidade: {
+    flex: 1,
+    marginTop:20,
+    paddingTop: 2,
+    alignItems: "center",
+    borderColor: 'black',
+    borderWidth:1,
+    borderRadius:4
   }
 });
 
@@ -89,7 +99,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
       request.idArquivo = 0;
       request.parametros = parametros;
       request.nomeExame = nomeExame;
-      request.dataExame = dataExame;
+      request.dataExame = localeDateToISO(dataExame);
   
 
       await editarExame(exame.id, request);
@@ -119,7 +129,13 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
       request.idArquivo = 0;
       request.parametros = parametros;
       request.nomeExame = nomeExame;
-      request.dataExame = dataExame;
+      request.dataExame = localeDateToISO(dataExame);
+
+      console.log("fafsdsadasdasdasdasd")
+      console.log("fafsdsadasdasdasdasd")
+      console.log(request)
+      console.log("fafsdsadasdasdasdasd")
+      console.log("fafsdsadasdasdasdasd")
 
       await criarTipoExame(request);
       notify("Exame cadastrado com sucesso!");
@@ -139,6 +155,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
   },[mensagemDataConsulta, dataExame]);
 
   const [selectedValue, setSelectedValue] = useState<string>();
+  const [selectedValueTipoExame, setSelectedValueTipoExame] = useState<string>();
 
   useEffect(() => {
     setDataExame(exame.dataExame !== "" ? new Date(exame.dataExame).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : "");
@@ -146,6 +163,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
     setParametros(exame.parametros);
     setDadosInstituicao(exame.dadosInstituicao);
     setSelectedValue(exame.dadosInstituicao.id ? exame.dadosInstituicao.id.toString() : "");
+    setSelectedValueTipoExame(exame.nomeExame ? exame.nomeExame : "");
   }, [exame]);
 
   return (
@@ -166,6 +184,22 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
               style={""}
             />
 
+            <View style={styles.select}>
+              <Picker
+                selectedValue={selectedValueTipoExame}
+                style={{ height: 50, width: '100%' }}
+                onValueChange={(itemValue, itemIndex) => {
+                  const aux:TipoExameResponse = listaTipoExame.find(item => item.nomeExame === itemValue );
+                  setNomeExame(aux.nomeExame ? aux.nomeExame : "");
+                  return setSelectedValueTipoExame(itemValue)
+                }}
+              >
+                {
+                 listaTipoExame && listaTipoExame.map( tipo => <Picker.Item key={tipo.id} label={tipo.nomeExame} value={tipo.nomeExame} />)
+                }
+              </Picker>
+            </View>
+
             {/* <InputTextPadrao 
               label={translate('exame.labels.nome')}
               valor={nomeMedico}
@@ -176,7 +210,7 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
               quantidadeCaracteres={100}
             /> */}
 
-            <View style={styles.select}>
+            <View style={styles.selectLocalidade}>
               <Picker
                 selectedValue={selectedValue}
                 style={{ height: 50, width: '100%' }}
