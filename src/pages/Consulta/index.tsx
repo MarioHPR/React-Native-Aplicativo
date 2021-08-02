@@ -54,6 +54,7 @@ const Consulta: React.FC = () => {
     },[]);
 
     const showModalInstituicao = (flg:boolean) => {
+        setFlgAdd(true);
         setInstituicao(INITIAL_INSTITUICAO_REQUEST);
         setVisibleInstituicao(flg)
     };

@@ -61,11 +61,13 @@ const Exame: React.FC = () => {
     },[]);
 
     const showModalInstituicao = (flg:boolean) => {
+        setFlgAdd(true);
         setInstituicao(INITIAL_INSTITUICAO_REQUEST);
         setVisibleInstituicao(flg)
     };
 
     const showModalTipoExame = (flg:boolean) => {
+        setFlgAdd(true);
         setTipoExame(INITIAL_RESPONSE);
         setVisibleTipoExame(flg)
     };

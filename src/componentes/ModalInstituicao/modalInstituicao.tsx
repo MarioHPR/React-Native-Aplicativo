@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, ToastAndroid } from 'react-native';
-import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
+import { Modal, Portal, Text, Button, Provider, Dialog } from 'react-native-paper';
 import { translate } from '../../locales';
 import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
 import style from './styles';
@@ -108,95 +108,97 @@ const ModalInstituicao: React.FC<Props> = ({flgAdd, instituicao, atualizar, setA
   return (
     <Provider>
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle} >
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            <Text style={style.marginTop}> {flgAdd ? translate('instituicao.titleAdd') : translate('instituicao.titleEdit')} </Text>
-            <InputTextPadrao 
-              label={translate('instituicao.labels.nome')}
-              valor={nome}
-              setValor={ setNome }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            />
-            <InputTextPadrao 
-              label={translate('instituicao.labels.cidade')}
-              valor={cidade}
-              setValor={ setCidade }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            />
+        <Dialog visible={visible} onDismiss={hideModal} style={{marginTop:80}}  >
+          <Dialog.ScrollArea>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              <Text> {flgAdd ? translate('instituicao.titleAdd') : translate('instituicao.titleEdit')} </Text>
+              <InputTextPadrao 
+                label={translate('instituicao.labels.nome')}
+                valor={nome}
+                setValor={ setNome }
+                mensagemErro={""}
+                style={""}
+                typeKeybord={'default'}
+                quantidadeCaracteres={100}
+              />
+              <InputTextPadrao 
+                label={translate('instituicao.labels.cidade')}
+                valor={cidade}
+                setValor={ setCidade }
+                mensagemErro={""}
+                style={""}
+                typeKeybord={'default'}
+                quantidadeCaracteres={100}
+              />
 
-            <InputTextPadrao 
-              label={translate('instituicao.labels.bairro')}
-              valor={bairro}
-              setValor={ setBairro }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            />
+              <InputTextPadrao 
+                label={translate('instituicao.labels.bairro')}
+                valor={bairro}
+                setValor={ setBairro }
+                mensagemErro={""}
+                style={""}
+                typeKeybord={'default'}
+                quantidadeCaracteres={100}
+              />
 
-            <InputTextPadrao 
-              label={translate('instituicao.labels.rua')}
-              valor={rua}
-              setValor={ setRua }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            />
+              <InputTextPadrao 
+                label={translate('instituicao.labels.rua')}
+                valor={rua}
+                setValor={ setRua }
+                mensagemErro={""}
+                style={""}
+                typeKeybord={'default'}
+                quantidadeCaracteres={100}
+              />
 
-            <InputTextPadrao 
-              label={translate('instituicao.labels.numero')}
-              valor={numero.toString()}
-              setValor={ setNumero }
-              mensagemErro={""}
-              style={""}
-              typeKeybord={'numeric'}
-              quantidadeCaracteres={100}
-            />
+              <InputTextPadrao 
+                label={translate('instituicao.labels.numero')}
+                valor={numero.toString()}
+                setValor={ setNumero }
+                mensagemErro={""}
+                style={""}
+                typeKeybord={'numeric'}
+                quantidadeCaracteres={100}
+              />
 
-            <InputTextMascaraCep
-              label={translate("instituicao.labels.cep")}
-              valor={cep}
-              setValor={setCep}
-              mensagemErro={""}
-              style={""}
-            />
+              <InputTextMascaraCep
+                label={translate("instituicao.labels.cep")}
+                valor={cep}
+                setValor={setCep}
+                mensagemErro={""}
+                style={""}
+              />
 
-            <InputTextMascaraTelefone
-              label={translate("instituicao.labels.contato1")}
-              valor={contatoUm}
-              setValor={setContatoUm}
-              mensagemErro={("")}
-              style={""}
-              typeKeybord={'default'}
-              quantidadeCaracteres={100}
-            />
+              <InputTextMascaraTelefone
+                label={translate("instituicao.labels.contato1")}
+                valor={contatoUm}
+                setValor={setContatoUm}
+                mensagemErro={("")}
+                style={""}
+                typeKeybord={'default'}
+                quantidadeCaracteres={100}
+              />
 
-            <InputTextMascaraTelefone
-              label={translate("instituicao.labels.contato2")}
-              valor={contatoDois}
-              setValor={setContatoDois}
-              mensagemErro={("")}
-              style={""}
-            />
+              <InputTextMascaraTelefone
+                label={translate("instituicao.labels.contato2")}
+                valor={contatoDois}
+                setValor={setContatoDois}
+                mensagemErro={("")}
+                style={""}
+              />
 
-            <Button disabled={disable} onPress={() => flgAdd ? addInstituicao() : editInstituicao()}>
-              { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
-            </Button>
-            <Button style={styles.btCancelar} onPress={hideModal}>
-              { translate("btCancelar") }
-            </Button>
-          </ScrollView>
-        </Modal>
+              <Button disabled={disable} onPress={() => flgAdd ? addInstituicao() : editInstituicao()}>
+                { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
+              </Button>
+              <Button style={styles.btCancelar} onPress={hideModal}>
+                { translate("btCancelar") }
+              </Button>
+            </ScrollView>
+          </Dialog.ScrollArea>
+        </Dialog >
       </Portal>
       
     </Provider>
