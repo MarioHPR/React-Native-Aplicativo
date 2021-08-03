@@ -10,9 +10,9 @@ import { editarExame } from '../../controllers/exameApi';
 import InputTextMascaraData from '../InputTextPadrao/InputTextMascaraData';
 import { dataValida, localeDateToISO } from '../../utils/Validador';
 import { DadosExameEditRequest, DadosExameRequest, DadosExameResponse, INITIAL_EXAME_REQUEST } from '../../interfaces/Exame';
-import { DadosTipoExameResponse, ItemCampoExame, TipoExameResponse } from '../../interfaces/TipoExame';
-import { ItemValorExameRequest } from '../../interfaces/ItemValorExame';
-import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
+import { DadosTipoExameResponse, ItemCampoExame } from '../../interfaces/TipoExame';
+import { ItemValorExameRequest } from '../../interfaces/ItemValorExame';;
+import InputsParametros from '../InputTextPadrao/InputsParametros';
 
 const styles = StyleSheet.create({
   container: {
@@ -155,6 +155,18 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
   const [selectedValue, setSelectedValue] = useState<string>();
   const [selectedValueTipoExame, setSelectedValueTipoExame] = useState<string>();
 
+  const atualizarParametros = (idDoCampo: number, campoNovo:string, tipoCampo:boolean) => {
+    exame.parametros.forEach( item => {
+      if(item.idItemCampoExame === idDoCampo && item.campo !== campoNovo && tipoCampo){
+        item.campo = campoNovo;
+      } 
+      else if(item.idItemValorExame === idDoCampo && item.valor !== campoNovo && !tipoCampo){
+        item.valor = campoNovo;
+      }
+    });
+    setParametros(exame.parametros);
+  }
+
   useEffect(() => {
     setDataExame(exame.dataExame !== "" ? new Date(exame.dataExame).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : "");
     setNomeExame(exame.nomeExame);
@@ -215,37 +227,10 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
               </Picker>
             </View>
               <Text style={styles.title}>Parametros do exame</Text>
-            { !flgAdd &&
-             (exame.parametros !== [] && exame !== undefined) ? exame.parametros.map( campo => {
+            { 
+             (parametros !== []) ? parametros.map( campo => {
                 return (
-                  <View key={campo.id}
-                    style={{
-                        flexDirection: "row",
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: 10
-                    }}
-                  >
-                    <InputTextPadrao 
-                      label={translate('exame.labels.campo')}
-                      valor={campo.campo}
-                      setValor={ () => {} }
-                      mensagemErro={""}
-                      style={styles.celula}
-                      typeKeybord={'default'}
-                      quantidadeCaracteres={100}
-                    />
-
-                    <InputTextPadrao 
-                      label={translate('exame.labels.valor')}
-                      valor={campo.valor}
-                      setValor={ () => {} }
-                      mensagemErro={""}
-                      style={styles.celula}
-                      typeKeybord={'default'}
-                      quantidadeCaracteres={100}
-                    />
-                  </View>
+                  <InputsParametros key={campo.id} funcaoAuxiliar={atualizarParametros} idCampo={campo.idItemCampoExame} idValor={campo.idItemValorExame} flgEdit={!flgAdd} campo={campo.campo} valor={campo.valor} />
                 )
               }) : <Text>Não a parametros</Text>
             }

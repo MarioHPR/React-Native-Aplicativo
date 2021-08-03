@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View} from 'react-native';
 import { translate } from '../../locales';
 import InputTextPadrao from './InputTextPadrao';
 
@@ -10,50 +10,59 @@ const styles = StyleSheet.create({
   });
 
 interface Iprops {
-    id: number;
-    parametrosExistentes: any;
-    adicionarParametro: Function;
+    flgEdit:boolean;
+    campo:string;
+    valor:string;
+    idCampo:number;
+    idValor: number;
+    funcaoAuxiliar: (idDoCampo:number, campoNovo:string, tipoCampo:boolean ) => void;
 }
 
-export default({
-    id,
-    parametrosExistentes,
-    adicionarParametro
-}: Iprops) => {
+const InputsParametros: React.FC<Iprops> = ({ idCampo, idValor, campo, valor, funcaoAuxiliar }) => {
 
-    const [ campo, setCampo ] = useState();
-    const [ valor, setValor ] = useState();
+    const [ newCampo, setNewCampo ] = useState<string>(campo);
+    const [ newValor, setNewValor ] = useState<string>(valor);
+
+    useEffect(() => {
+      funcaoAuxiliar(idCampo, newCampo, true);
+      campo = newCampo;
+    }, [newCampo]);
+
+    useEffect(() => {
+      funcaoAuxiliar(idValor, newValor, false);
+      valor = newValor;
+    }, [ newValor]);
 
     return (
-        <KeyboardAvoidingView>
-            <View key={id}
-                    style={{
-                        flexDirection: "row",
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: 10
-                    }}
-                  >
-                    <InputTextPadrao 
-                      label={translate('exame.labels.campo')}
-                      valor={campo}
-                      setValor={setCampo}
-                      mensagemErro={""}
-                      style={styles.celula}
-                      typeKeybord={'default'}
-                      quantidadeCaracteres={100}
-                    />
+          <View
+            style={{
+                flexDirection: "row",
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: 10
+            }}
+          >
+            <InputTextPadrao 
+              label={translate('exame.labels.campo')}
+              valor={newCampo}
+              setValor={setNewCampo}
+              mensagemErro={""}
+              style={styles.celula}
+              typeKeybord={'default'}
+              quantidadeCaracteres={100}
+            />
 
-                    <InputTextPadrao 
-                      label={translate('exame.labels.valor')}
-                      valor={valor}
-                      setValor={setValor}
-                      mensagemErro={""}
-                      style={styles.celula}
-                      typeKeybord={'default'}
-                      quantidadeCaracteres={100}
-                    />
-                  </View>
-        </KeyboardAvoidingView>
+            <InputTextPadrao 
+              label={translate('exame.labels.valor')}
+              valor={newValor}
+              setValor={setNewValor}
+              mensagemErro={""}
+              style={styles.celula}
+              typeKeybord={'default'}
+              quantidadeCaracteres={100}
+            />
+          </View>
     );
 }
+
+export default InputsParametros;
