@@ -5,7 +5,7 @@ import InputTextPadrao from './InputTextPadrao';
 
 const styles = StyleSheet.create({
     celula: {
-      width: 150
+      width: 120
     }
   });
 
@@ -38,8 +38,7 @@ const InputsParametros: React.FC<Iprops> = ({ idCampo, idValor, campo, valor, fu
             style={{
                 flexDirection: "row",
                 display: 'flex',
-                justifyContent: 'space-between',
-                padding: 10
+                justifyContent: 'space-between'
             }}
           >
             <InputTextPadrao 

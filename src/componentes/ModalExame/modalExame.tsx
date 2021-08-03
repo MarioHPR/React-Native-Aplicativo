@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Picker, ScrollView, StyleSheet, ToastAndroid, View } from 'react-native';
-import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
+import { Modal, Portal, Text, Button, Provider, Dialog } from 'react-native-paper';
 import { translate } from '../../locales';
 import style from './styles';
 import { InstituicaoResponse } from '../../interfaces/Instituicao';
@@ -11,7 +11,7 @@ import InputTextMascaraData from '../InputTextPadrao/InputTextMascaraData';
 import { dataValida, localeDateToISO } from '../../utils/Validador';
 import { DadosExameEditRequest, DadosExameRequest, DadosExameResponse, INITIAL_EXAME_REQUEST } from '../../interfaces/Exame';
 import { DadosTipoExameResponse, ItemCampoExame } from '../../interfaces/TipoExame';
-import { ItemValorExameRequest } from '../../interfaces/ItemValorExame';;
+import { INITIAL_PARAMETROS_REQUEST, ItemValorExameRequest } from '../../interfaces/ItemValorExame';;
 import InputsParametros from '../InputTextPadrao/InputsParametros';
 
 const styles = StyleSheet.create({
@@ -167,6 +167,14 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
     setParametros(exame.parametros);
   }
 
+  const [auxParametros, setAuxParametros] = useState<ItemValorExameRequest[]>();
+
+  const addParametros = () => {
+    let aux:ItemValorExameRequest[] = parametros;
+    aux.push(INITIAL_PARAMETROS_REQUEST);
+    setAuxParametros(aux);
+  }
+
   useEffect(() => {
     setDataExame(exame.dataExame !== "" ? new Date(exame.dataExame).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : "");
     setNomeExame(exame.nomeExame);
@@ -176,73 +184,78 @@ const ModalExame: React.FC<Props> = ({flgAdd, exame, listaTipoExame, listaInstit
     setSelectedValueTipoExame(exame.nomeExame ? exame.nomeExame : "");
   }, [exame]);
 
+  useEffect(() => {
+    auxParametros && setParametros(auxParametros);
+  }, [auxParametros]);
+
   return (
     <Provider>
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle} >
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            <Text style={style.marginTop}> {flgAdd ? translate('exame.titleAdd') : translate('exame.titleEdit')} </Text>
+        <Dialog visible={visible} onDismiss={hideModal} style={{marginTop:80, flex:3}} >
+          <Dialog.ScrollArea>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              <Text style={style.marginTop}> {flgAdd ? translate('exame.titleAdd') : translate('exame.titleEdit')} </Text>
 
-            <InputTextMascaraData
-              label={translate('exame.labels.data')}
-              valor={dataExame}
-              setValor={setDataExame}
-              mensagemErro={!!!error ? mensagemDataConsulta : ""}
-              style={""}
-            />
+              <InputTextMascaraData
+                label={translate('exame.labels.data')}
+                valor={dataExame}
+                setValor={setDataExame}
+                mensagemErro={!!!error ? mensagemDataConsulta : ""}
+                style={""}
+              />
 
-            <View style={styles.select}>
-              <Picker
-                selectedValue={selectedValueTipoExame}
-                style={{ height: 50, width: '100%' }}
-                onValueChange={(itemValue, itemIndex) => {
-                  const aux:DadosTipoExameResponse = listaTipoExame.find(item => item.nomeExame === itemValue );
-                  setNomeExame(aux.nomeExame ? aux.nomeExame : "");
-                  setParametrosTipoExame(aux.itensCampo);
-                  return setSelectedValueTipoExame(itemValue)
-                }}
-              >
-                {
-                 listaTipoExame && listaTipoExame.map( tipo => <Picker.Item key={tipo.id} label={tipo.nomeExame} value={tipo.nomeExame} />)
-                }
-              </Picker>
-            </View>
+              <View style={styles.select}>
+                <Picker
+                  selectedValue={selectedValueTipoExame}
+                  style={{ height: 50, width: '100%' }}
+                  onValueChange={(itemValue, itemIndex) => {
+                    const aux:DadosTipoExameResponse = listaTipoExame.find(item => item.nomeExame === itemValue );
+                    setNomeExame(aux.nomeExame ? aux.nomeExame : "");
+                    setParametrosTipoExame(aux.itensCampo);
+                    return setSelectedValueTipoExame(itemValue)
+                  }}
+                >
+                  {
+                  listaTipoExame && listaTipoExame.map( tipo => <Picker.Item key={tipo.id} label={tipo.nomeExame} value={tipo.nomeExame} />)
+                  }
+                </Picker>
+              </View>
 
-            <View style={styles.selectLocalidade}>
-              <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: '100%' }}
-                onValueChange={(itemValue, itemIndex) => {
-                  const aux = listaInstituicoes.find(item => item.id.toString() === itemValue );
-                  setDadosInstituicao(aux);
-                  return setSelectedValue(itemValue)
-                }}
-              >
-                {
-                 listaInstituicoes && listaInstituicoes.map( inst => <Picker.Item key={inst.id} label={inst.nome} value={inst.id.toString()} />)
-                }
-              </Picker>
-            </View>
-              <Text style={styles.title}>Parametros do exame</Text>
-            { 
-             (parametros !== []) ? parametros.map( campo => {
-                return (
-                  <InputsParametros key={campo.id} funcaoAuxiliar={atualizarParametros} idCampo={campo.idItemCampoExame} idValor={campo.idItemValorExame} flgEdit={!flgAdd} campo={campo.campo} valor={campo.valor} />
-                )
-              }) : <Text>Não a parametros</Text>
-            }
+              <View style={styles.selectLocalidade}>
+                <Picker
+                  selectedValue={selectedValue}
+                  style={{ height: 50, width: '100%' }}
+                  onValueChange={(itemValue, itemIndex) => {
+                    const aux = listaInstituicoes.find(item => item.id.toString() === itemValue );
+                    setDadosInstituicao(aux);
+                    return setSelectedValue(itemValue)
+                  }}
+                >
+                  {
+                  listaInstituicoes && listaInstituicoes.map( inst => <Picker.Item key={inst.id} label={inst.nome} value={inst.id.toString()} />)
+                  }
+                </Picker>
+              </View>
+                <Text style={styles.title}>Parametros do exame</Text>
+              { 
+              parametros ? parametros.map( (campo, index) => <InputsParametros key={index} funcaoAuxiliar={atualizarParametros} idCampo={campo.idItemCampoExame} idValor={campo.idItemValorExame} flgEdit={!flgAdd} campo={campo.campo} valor={campo.valor} />
+              ) : <Text>Não a parametros</Text>
+              }
 
-            <Button disabled={disable} onPress={() => flgAdd ? addExame() : editExame()}>
-              { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
-            </Button>
-            <Button style={styles.btCancelar} onPress={hideModal}>
-              { translate("btCancelar") }
-            </Button>
-          </ScrollView>
-        </Modal>
+              <Button onPress={addParametros}> + Adicionar parametros</Button>
+
+              <Button disabled={disable} onPress={() => flgAdd ? addExame() : editExame()}>
+                { flgAdd ? translate("botaoEnviar") : translate("botaoEditar")}
+              </Button>
+              <Button style={styles.btCancelar} onPress={hideModal}>
+                { translate("btCancelar") }
+              </Button>
+            </ScrollView>
+          </Dialog.ScrollArea>
+        </Dialog>
       </Portal>
       
     </Provider>
