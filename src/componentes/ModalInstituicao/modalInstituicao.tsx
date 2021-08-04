@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, ToastAndroid } from 'react-native';
-import { Modal, Portal, Text, Button, Provider, Dialog } from 'react-native-paper';
+import { Portal, Text, Button, Provider, Dialog } from 'react-native-paper';
 import { translate } from '../../locales';
 import InputTextPadrao from '../InputTextPadrao/InputTextPadrao';
-import style from './styles';
 import { criarInstituicao, editarInstituicao } from '../../controllers/instituicaoApi';
-import { InstituicaoRequest, InstituicaoResponse, RequestInstituicao } from '../../interfaces/Instituicao';
+import { InstituicaoResponse, RequestInstituicao } from '../../interfaces/Instituicao';
 import InputTextMascaraCep from '../InputTextPadrao/InputTextMascaraCep';
 import InputTextMascaraTelefone from '../InputTextPadrao/InputTextMascaraTelefone';
 import { useAuth } from '../../contexts/auth';
