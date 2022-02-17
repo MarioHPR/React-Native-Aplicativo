@@ -31,7 +31,7 @@
     "intl": "^1.2.5",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.33",
-    "next": "^10.2.3",
+    "next": "^12.1.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-moment": "^1.1.1",
